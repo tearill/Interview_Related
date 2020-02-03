@@ -1,7 +1,7 @@
 {
   "name": "big_file_upload",
   "version": "1.0.0",
-  "description": "参考掘金原文👉https://juejin.im/post/5dff8a26e51d4558105420ed",
+  "description": "big_file_upload",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
