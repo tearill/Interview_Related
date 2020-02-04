@@ -11,7 +11,7 @@ function longestValidParentheses(s) {
         for (var j = i; j < s.length; j++) { // 从i开始，自己也算一个
             if (s[j] === '(') { // 左括号
                 stack.push('('); // 入栈
-                // tmpMax++;
+                tmpMax++;
             } else if (s[j] === ')') { // 右括号
                 if (stack.length < 1) {
                     // 当前栈是空的，当前位置括号有效匹配结束了
@@ -19,13 +19,13 @@ function longestValidParentheses(s) {
                     break;
                 } else {
                     stack.pop(); // 出栈
-                    tmpMax += 2;
+                    tmpMax++;
                 }
             }
+            if (stack.length === 0) { // 从当前位置到最后一个字符都是有效括号
+                max = max < tmpMax ? tmpMax : max;
+            }
         }
-        // if (stack.length === 0) { // 从当前位置到最后一个字符都是有效括号
-        max = max < tmpMax ? tmpMax : max;
-        // }
         stack = []; // 清空为本次括号的服务
     }
     return max;
