@@ -1,3 +1,4 @@
+// 模拟合并分片文件
 const path = require('path'); // 引入node的path模块
 const fse = require('fs-extra') // fs 扩展包
 // 合并文件切片
