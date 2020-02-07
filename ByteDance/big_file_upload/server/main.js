@@ -25,7 +25,7 @@ server.on("request", async (req, res) => {
             const [filename] = fields.filename; // 切片文件完整文件名 filename为前端formdata里面设置的key
             // console.log(filename);
             const dir_name = filename.split('-')[0]; // 切片文件名字前缀 => 切片文件文件夹名
-            const chunkDir = path.resolve(UPLOAD_DIR, dir_name); // 切片文件所在文件夹的路径
+            const chunkDir = path.resolve(UPLOAD_DIR, dir_name); // 切片文件上传到的文件夹的路径
             // console.log(chunkDir);
             if (!fse.existsSync(chunkDir)) {
                 await fse.mkdirs(chunkDir); // 创建切片文件文件夹
