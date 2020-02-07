@@ -16,7 +16,7 @@ self.onmessage = e => { // 接受主线程传递过来的事件
     const loadNext = index => { // 拿到所有的内容
         const reader = new FileReader(); // 文件阅读对象 读取文件到内存
         reader.readAsArrayBuffer(fileChunkList[index].file); // 读取切片文件
-        reader.onload = e => { // 加载完成事件 读完了所有的文件对象触发
+        reader.onload = e => { // 加载成事件 读取文件的时候触发
             count++;
             spark.append(e.target.result);
             if (count === fileChunkList.length) { // 如果完成了
