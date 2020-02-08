@@ -65,21 +65,22 @@ module.exports = class {
         const data = await resolvePost(req); // 拿到 post 传过来的 data，bodyParser
         const { fileHash, filename } = data; // 从data中把hash值和文件名解构出来
         const ext = extractExt(filename); // 拿出文件后缀
+        console.log(fileHash, 'aaaaaa');
         // yb.jpeg
         console.log(ext);  // .jpeg
-        const filePath = path.resolve(UPLOAD_DIR, filename); // 查找上传的文件在服务器端上的位置
-        console.log(filePath); // E:\Interview_Related\ByteDance\vue-big-file-upload\target\24b42dbd786fbd1bcdac21be9c77de70.jpeg
+        const filePath = path.resolve(UPLOAD_DIR, filename); // 上传并且合并后的文件
+        console.log(filePath); 
         if (fse.existsSync(filePath)) {
-            res.end( // 文件已经存在 不需要上传
+            res.end( // 合并后文件已经存在 不需要上传
                 JSON.stringify({
                     shouldUpload: false
                 })
             )
         } else {
-            res.end( // 文件不存在 要上传
+            res.end( // 合并的文件不存在 说明切片文件上传不完整 要继续上传
                 JSON.stringify({
                     shouldUpload: true,
-                    uploadedList: await createUploadedList(fileHash)
+                    uploadedList: await createUploadedList(fileHash) // 已经上传的切片
                 })
             )
         }
@@ -111,10 +112,6 @@ module.exports = class {
                 return;
             }
 
-            if (!fse.existsSync(UPLOAD_DIR)) {
-                await fse.mkdirs(UPLOAD_DIR);
-            }
-
             if (!fse.existsSync(chunkDir)) {
                 // 如果目录地址不存在
                 await fse.mkdirs(chunkDir);
@@ -128,7 +125,7 @@ module.exports = class {
     async handleMerge(req, res) { // 合并文件请求
         const data = await resolvePost(req); // 拿到post过来的数据
         const { fileHash, filename, size } = data; // 解构
-        // const ext = extractExt(filename); // 拿到文件后缀名
+        const ext = extractExt(filename); // 拿到文件后缀名
         const filePath = path.resolve(UPLOAD_DIR, filename); // 合并后文件要放置的位置
         console.log(filePath, "+++");
         await mergeFileChunk(filePath, fileHash, size);
