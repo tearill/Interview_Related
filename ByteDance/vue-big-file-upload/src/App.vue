@@ -151,10 +151,10 @@ export default {
       // console.log(e.target.files);
       // 做文件的分割 slice
       const [file] = e.target.files; // 拿到第一个文件
-      this.container.file = file;
-      // Object.assign(this.$data, this.$options.data());
-
+      if (!file) return;
       this.resetData(); // 清空上一次上传的请求
+      Object.assign(this.$data, this.$options.data());
+      this.container.file = file;
     },
 
     async handleUpload() { // 处理上传
@@ -207,7 +207,7 @@ export default {
       // console.log(this.data);
       // 数据数组this.data => 请求数组 => 并发请求
       const requestList = this.data
-        // .filter(({ hash }) => !uploadedList.includes(hash))
+        .filter(({ hash }) => !uploadedList.includes(hash))
         .map(({ chunk, hash, index }) => {
           const formData = new FormData(); // js 构建post请求表单
           formData.append("chunk", chunk); // 文件 blob
@@ -254,7 +254,7 @@ export default {
     },
 
     resetData() { // 暂停上传
-      this.requestList.forEach(xhr => xhr.abort()) // 暂停xhr上传
+      this.requestList.forEach(xhr => xhr?.abort()) // 暂停xhr上传
       this.requestList = []; // 清空xhr
       if (this.container.worker) { // 正在hash计算过程中
         this.container.worker.onmessage = null; // 不再监听worker开启的新进程信息

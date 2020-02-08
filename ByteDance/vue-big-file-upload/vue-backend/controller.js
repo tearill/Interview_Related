@@ -24,12 +24,13 @@ const pipeStream = (path, writeStream) =>
     new Promise(resolve => {
         const readStream = fse.createReadStream(path);
         readStream.on('end', () => {
-            fse.unlinkSync(path);
+            // fse.unlinkSync(path);
             resolve();
         });
         readStream.pipe(writeStream);
     })
 
+// 合并后文件放置的路径是filePath 切片文件放在UPLOAD_DIR下的fileHash文件夹下 size是每块切片文件的大小
 const mergeFileChunk = async (filePath, fileHash, size) => {
     const chunkDir = path.resolve(UPLOAD_DIR, fileHash); // 切片文件所在的文件夹
     const chunkPaths = await fse.readdir(chunkDir); // 读出目录下的所有文件
@@ -46,7 +47,7 @@ const mergeFileChunk = async (filePath, fileHash, size) => {
             )
         })
     );
-    fse.rmdirSync(chunkDir); // 合并后删除保存切片的目录
+    // fse.rmdirSync(chunkDir); // 合并后删除保存切片的目录
 }
 
 // 返回已经上传切片名
@@ -66,7 +67,7 @@ module.exports = class {
         const ext = extractExt(filename); // 拿出文件后缀
         // yb.jpeg
         console.log(ext);  // .jpeg
-        const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`); // 根据hash值查找上传的文件在服务器端上的位置
+        const filePath = path.resolve(UPLOAD_DIR, filename); // 查找上传的文件在服务器端上的位置
         console.log(filePath); // E:\Interview_Related\ByteDance\vue-big-file-upload\target\24b42dbd786fbd1bcdac21be9c77de70.jpeg
         if (fse.existsSync(filePath)) {
             res.end( // 文件已经存在 不需要上传
@@ -101,7 +102,7 @@ module.exports = class {
             const [fileHash] = fields.fileHash; // 整个文件的hash
             const [filename] = fields.filename; // 切片文件完整文件名
             // console.log(chunk, hash, fileHash, filename);
-            const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${extractExt(filename)}`); // 上传的文件路径
+            const filePath = path.resolve(UPLOAD_DIR, filename); // 合并后的文件
             console.log(filePath);
             const chunkDir = path.resolve(UPLOAD_DIR, fileHash); // 上传到的文件夹
             console.log(fse.existsSync(filePath));
@@ -110,11 +111,15 @@ module.exports = class {
                 return;
             }
 
+            if (!fse.existsSync(UPLOAD_DIR)) {
+                await fse.mkdirs(UPLOAD_DIR);
+            }
+
             if (!fse.existsSync(chunkDir)) {
-                // 如果目录地址不存在 target
+                // 如果目录地址不存在
                 await fse.mkdirs(chunkDir);
             }
-            // 从服务器端暂存位置移到目标目录下
+            // 从服务器端暂存位置移到上传目录下自己的那个文件夹下
             await fse.move(chunk.path, path.resolve(chunkDir, hash));
             res.end("received file chunk");
         })
@@ -123,8 +128,8 @@ module.exports = class {
     async handleMerge(req, res) { // 合并文件请求
         const data = await resolvePost(req); // 拿到post过来的数据
         const { fileHash, filename, size } = data; // 解构
-        const ext = extractExt(filename); // 拿到文件后缀名
-        const filePath = path.resolve(UPLOAD_DIR, `${fileHash}${ext}`); // 合并后文件要放置的位置
+        // const ext = extractExt(filename); // 拿到文件后缀名
+        const filePath = path.resolve(UPLOAD_DIR, filename); // 合并后文件要放置的位置
         console.log(filePath, "+++");
         await mergeFileChunk(filePath, fileHash, size);
         res.end(
