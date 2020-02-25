@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <a href="#/aaa">aaa</a>
+    <a href="#/bbb">bbb</a>
+    <div id="root"></div> -->
+    <div class="nav">
+        <a href="#/page1">page1</a>
+        <a href="#/page2">page2</a>
+        <a href="#/page3">page3</a>
+    </div>
+    <div id="container"></div>
+    <script>
+        // window.addEventListener('hashchange', function(event) {
+        //     let newURL = event.newURL; // hash 改变后的新 url
+        //     let oldURL = event.oldURL;
+        //     console.log(newURL, oldURL);
+        //     document.getElementById('root').innerHTML = window.location.hash;
+        // })
+
+        class HashRouter {
+            constructor() {
+                this.routers = {}; // 存储不同 hash 值对应的回调函数
+                window.addEventListener('hashchange', () => { // 监听 hashchange 事件
+                    let hash = window.location.hash.slice(1), handler;
+                    // handler = this.routers[hash];
+                    // 调用不同视图的回调函数
+                    if (!hash) { // 没有 hash 默认为首页
+                        handler = this.routers.index;
+                    } else {
+                        handler = this.routers[hash];
+                    }
+                    // handler();
+                    // 执行注册的回调
+                    handler.call(this); // 使用 call 是为了在切换 hash 的时候可以拿到 routers
+                })
+            }
+            // 注册 hashchange 发生后执行的 callback 函数
+            // 注册每个视图
+            register(hash, callback) {
+                this.routers[hash] = callback;
+            }
+            // 初始化的时候执行 注册 index 路由
+            registerIndex(cb = () => {} ) {
+                this.routers['index'] = cb;
+            }
+        }
+        let router = new HashRouter(); // 路由对象 hash 类型
+        let container = document.getElementById('container'); // 模拟 Vue 根组件
+
+        router.registerIndex(() => container.innerHTML = '首页');
+        
+        router.register('/page1', () => container.innerHTML = '/page1'); // 路由 对应执行什么操作
+        router.register('/page2', () => container.innerHTML = '/page2');
+        router.register('/page3', () => container.innerHTML = '/page3');
+    </script>
+</body>
+</html>
