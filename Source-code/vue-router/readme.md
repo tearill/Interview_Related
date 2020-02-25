@@ -1,7 +1,7 @@
 # vue-router 的源码实现  
 参考掘金原文👉https://juejin.im/post/5d2d19ccf265da1b7f29b05f  
 
-## 分析  
+## 总体分析  
 
 - vue-router  
   现在大部分的 Web 项目都是单页应用 --- SPA  
@@ -24,5 +24,11 @@
   window.location.hash --- 可以拿到 hash 模式的路由中 #/... 部分  
   通过切割拿到 path 部分 -> 去到 routes  
 
-## 实现  
-1. 创建 hash 路由类
+## hash 方式实现  
+  页面中放置 div 模拟 Vue 中的根元素 #app  
+  1. 创建 hash 路由类 -> routers 存储不同 hash 值对应的回调函数(模拟各个路由对应执行的操作)  
+  2. registerIndex() --- 注册首页的回调操作  
+  3. register() --- 注册各个页面的回调操作  
+  4. 构造函数中监听 hashchange 事件，在 routers 中取出相应的回调函数进行执行  
+  5. 注册回调修改 div 中的文本模拟切换路由时候的页面操作  
+  ps: handler.call(this); 使用 call 绑定当前 hash 路由对象，是为了在切换 hash 页面的时候可以拿到 routers 的数据，更加合理  
