@@ -34,7 +34,7 @@
                         handler = this.routers.index;
                     } else {
                         handler = this.routers[hash];
-                    }
+                    }  
                     // handler();
                     // 执行注册的回调
                     handler.call(this); // 使用 call 是为了在切换 hash 的时候可以拿到 routers
