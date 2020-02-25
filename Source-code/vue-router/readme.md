@@ -22,7 +22,7 @@
   2. hash 是 location 的一部分 http[s]://www.baidu.com:8080/  
      path?a=1#haha 变化不会带来页面的刷新  
   window.location.hash --- 可以拿到 hash 模式的路由中 #/... 部分  
-  通过切割拿到 path 部分 -> 去到 routes  
+  通过切割拿到 path 部分 -> 去到 routes 匹配组件进行渲染  
 
 ## hash 方式实现  
   页面中放置 div 模拟 Vue 中的根元素 #app  
