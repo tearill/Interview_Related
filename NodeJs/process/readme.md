@@ -9,8 +9,13 @@
 
 1. 从前端角度开始  
    - Node.js是单线程吗？  js 运行在服务器端
+     js是单线程语言，html css js .vue .jsx node koa
 
-     js是单线程语言，html css js .vue .jsx node koa  
+     为什么 js 天生是单线程语言  
+     + 浏览器需要渲染 DOM  
+       JavaScript 可以修改 DOM 结构  
+       JavaScript 执行时，浏览器 DOM 渲染停止  
+     + 如果 JavaScript 引擎线程不是单线程的，那么可以同时执行多段 JavaScript，如果这多段 JavaScript 都修改 DOM，那么就会出现 DOM 冲突。  
 
      java 有主线程，开辟新的线程的概念  
 
