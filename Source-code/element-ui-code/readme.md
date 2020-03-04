@@ -45,7 +45,10 @@
       <slot name="title">{{title}}</slot>
     </span>
     ```
-    通过 `v-if="title || $slots.title"` 实现判断，从属性或者是利用 slot 传值都会显示 title  
+    通过 `v-if="title || $slots.title"` 实现判断  
+    显示 title 的两种情况：
+     + 第一种是传了 title 属性，直接放到插槽中显示  
+     + 第二种是没传 title 属性，但是通过 title 的插槽传递 title 替换子组件中的 {{title}}  
   2. description  
     ```html
     <!-- 通过 slot:default 显示 description -->
@@ -54,3 +57,4 @@
     <p class="el-alert__description" v-if="!$slots.default && description">{{ description }}</p>
     ```
     可以通过属性和默认插槽两种方式传值进去显示 description  
+    这里不能写成和 title 那样使用 v-if 来实现两种方式的显示，因为这里的插槽是默认插槽，无法通过 $slots.default 进行判断    
