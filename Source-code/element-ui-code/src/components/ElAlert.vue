@@ -6,12 +6,12 @@
         class="el-alert"
         :class="[ typeClass, center ? 'is-center' : '', 'is-' + effect ]"
         v-show="visible"
-        role="alert"
         >
         <i class="el-alert__icon" :class="[ iconClass, isBigIcon ]" v-if="showIcon"></i>
         <div class="el-alert__content">
           <span class="el-alert__title" :class="[ isBoldTitle ]" v-if="title || $slots.title">
             <!-- {{title}} -->
+            <!-- 属性和具名插槽两种方式显示 -->
             <slot name="title">{{title}}</slot>
           </span>
           <!-- 通过 slot:default 显示 description -->

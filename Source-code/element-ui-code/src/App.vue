@@ -32,11 +32,11 @@
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-// import ElAlert from './components/ElAlert.vue'
+import ElAlert from './components/ElAlert.vue'
 export default {
   name: 'App',
   components: {
-    // ElAlert
+    ElAlert
   },
   methods: {
     showMsg() {
