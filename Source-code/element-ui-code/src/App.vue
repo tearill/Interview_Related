@@ -7,13 +7,14 @@
     show-icon
     closeText='close'
     @close="showMsg"
-    description="附加描述文字">
+    >
       <!-- <template v-slot:title>
         <button>title</button>
         <button>sub-title</button>
       </template> -->
       <!-- <button slot="title">title</button> -->
       <!-- description -->
+      <template v-slot:description>123</template>
     </el-alert>
     <el-alert
     title="成功提示的文案"
