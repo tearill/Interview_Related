@@ -18,8 +18,8 @@
           <!-- <p class="el-alert__description" v-if="$slots.default && !description"><slot></slot></p> -->
           <!-- 通过属性显示 description -->
           <!-- <p class="el-alert__description" v-if="!$slots.default && description">{{ description }}</p> -->
-          <!-- <p class="el-alert__description" v-if="description || $slots.default">{{ description }}</p> -->
-          <p class="el-alert__description" v-if="description || $slots.description"><slot name="description">{{ description }}</slot></p>
+          <p class="el-alert__description" v-if="description || $slots.default"><slot>{{ description }}</slot></p>
+          <!-- <p class="el-alert__description" v-if="description || $slots.description"><slot name="description">{{ description }}</slot></p> -->
           <!-- 关闭按钮 -->
           <i class="el-alert__closebtn" :class="{ 'is-customed' : closeText!== '', 'el-icon-close': closeText === '' }" v-show="closable" @click="close()">{{ closeText }}</i>
         </div>  
