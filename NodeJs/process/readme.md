@@ -1,15 +1,15 @@
 # 深入理解Node.js中的进程与线程  
-- 参考👉https://juejin.im/post/5d43017be51d4561f40adcf9 
+- 参考👉https://juejin.im/post/5d43017be51d4561f40adcf9  
 
 - 前端的角度来看待线程与进程  
 - node 进程 子进程cluster 多核CPU的利用 GO  
-- pm2 线上node 运行进程管理
-- docker 容器
+- pm2 线上node 运行进程管理  
+- docker 容器  
 - k8s  
 
 1. 从前端角度开始  
-   - Node.js是单线程吗？  js 运行在服务器端
-     js是单线程语言，html css js .vue .jsx node koa
+   - Node.js是单线程吗？  js 运行在服务器端  
+     js是单线程语言，html css js .vue .jsx node koa  
 
      为什么 js 天生是单线程语言  
      + 浏览器需要渲染 DOM  
@@ -21,17 +21,17 @@
 
      js 基于事件机制 event loop 回调，从另一个角度解决了多线程多进程的能力问题  
 
-     不是？
+     不是？ 
 
-   - 应用运行时，本质就是CPU运行的权力，进程是分配资源的最小单元 
+   - 应用运行时，本质就是CPU运行的权力，进程是分配资源的最小单元  
 
      进程是线程的容器  
 
      进程是线程的容器 线程是 CPU 计算的最小单元  
 
-     单线程 一个进程只产生一个线程    
+     单线程 一个进程只产生一个线程  
 
-     单线程 js ajax 微软公司发明的 
+     单线程 js ajax 微软公司发明的  
 
      新的线程创建出来 ajax 单线程对象  
 
@@ -57,7 +57,7 @@
 
 - 进程的两种方式  
 
-  child_process  fork  web-worker
+  child_process  fork  web-worker  
 
   cluster  fork  
 
