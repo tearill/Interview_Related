@@ -5,7 +5,8 @@
   + PC端 wifi：图片数量过多 -> 并发太多 -> 处于竞争状态 -> 页面打开速度下降  
   + 手机端 4G：要考虑流量问题  
 
-- 图片异步加载  
+- 最简单的方法：  
+  使用 vue-lazyload 库进行图片异步加载  
   `npm i vue-lazyload`  
   ```js
   Vue.use(VueLazyload, {
@@ -15,7 +16,7 @@
     attempt: 1 // viewport 视窗
   })
   ```
-  图片上 v-lazy  
+  一次加载两个视窗范围的图片，图片上 v-lazy  
 
 - 优化  
   1. 图片有哪些类型？  
