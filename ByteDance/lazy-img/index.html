@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lazy-load-imgs</title>
+  <style>
+    .lazy {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="imgList">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_9268bbab50f748eab8d13737a42cfaf7_img_000?x-oss-process=image/resize,m_mfit,w_432,h_288/crop,w_432,h_288,g_center">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_33a5cf60f86d4555ab052904a55540cc_img_000?x-oss-process=image/resize,m_mfit,w_432,h_288/crop,w_432,h_288,g_center">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200310/v2_67907ff0d33c487fa2f8ea799a5d54b8_img_jpg">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_f97c3864e0fd48b2ae4d80875b31e234_img_000?x-oss-process=image/resize,m_mfit,w_432,h_288/crop,w_432,h_288,g_center">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200310/v2_7c147c86f5b54bc59e7a24c6f59866b2_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200310/v2_9990966e1a6949bdaf56c0da2d6d1500_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_89fe8e79b515499fba0e11b1c8da2437_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200310/v2_a0dcf35f9c95409c8284c85c6adfdb56_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200309/v2_a6562607d13042138322f579b5ef85c2_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_e22b239fd17449749147693d1a1276e1_img_000?x-oss-process=image/resize,m_mfit,w_432,h_288/crop,w_432,h_288,g_center">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200310/v2_1279fee7f48742378f4821e9ee112641_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_fd175b4f71334c26bc01f5775418f9b0_img_png">
+    <img src="./src/assets/loading.svg" class="lazy" data-src="https://img.36krcdn.com/20200311/v2_47dc6936e77e477999a6dfd73eae6416_img_png">
+  </div>
+
+  <script>
+  var imgs = document.querySelectorAll('img'); // 获取页面所有的 img 标签
+
+  // offsetTop 是元素与 offsetParent 的距离，循环获取直到页面顶部
+  function getTop(e) { 
+    var T = e.offsetTop; // 距离上方的距离
+    while(e = e.offsetParent) { // 循环到父元素 div 的顶部
+      T += e.offsetTop;
+    }
+    return T;
+  }
+  // offsetTop - scrollTop < clientHeight 距离父元素顶部的高度 - 滑动距离高度(不可见) < 可视区域高度
+  // 实现懒加载
+  function lazyLoad(imgs) {
+    var clientHeight = document.documentElement.clientHeight; // 获取浏览器窗口可视区域高度，肉眼可见的那部分高度
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 浏览器向上滚动的高度
+    for (let i = 0; i < imgs.length; i++) {
+      if (clientHeight + scrollTop > getTop(imgs[i])) { // 整个页面高度 + 向上滚动距离 > 取出来显示的图片的高度
+        // 滑出了页面范围
+        imgs[i].src = imgs[i].getAttribute('data-src'); // 把图片的地址换成 data-src 中的真实地址
+      }
+    }
+  }
+
+  // 要加上 window.onload() --- 在页面首次加载完成的时候要先执行一次把一定的图片显示出来
+  window.onload = window.onscroll = function () { // onscroll() 在滚动条滚动的时候触发
+    lazyLoad(imgs);
+  }
+  </script>
+</body>
+</html>
