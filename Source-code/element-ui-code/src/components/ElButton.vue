@@ -11,7 +11,8 @@
         'is-plain': plain,
         'is-loading': loading,
         'is-disabled': buttonDisabled
-      }
+      },
+      buttonSize ? 'el-button--' + buttonSize : '',
     ]"
     >
     <i class="el-icon-loading" v-if="loading"></i>
@@ -45,6 +46,7 @@ export default {
     },
     loading: Boolean,
     disabled: Boolean,
+    size: String
   },
   methods: {
     handleClick(event) {
@@ -54,6 +56,9 @@ export default {
   computed: {
     buttonDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
+    },
+    buttonSize() {
+      return this.size
     }
   }
 }
