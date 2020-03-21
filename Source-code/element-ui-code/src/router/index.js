@@ -24,6 +24,16 @@ const routes = [
     path: '/button',
     name: 'Button',
     component: () => import('../views/Button.vue')
+  },
+  {
+    path: '/buttongroup',
+    name: 'ButtonGroup',
+    component: () => import('../views/ButtonGroup.vue')
+  },
+  {
+    path: '/badge',
+    name: 'Badge',
+    component: () => import('../views/Badge.vue')
   }
 ]
 
