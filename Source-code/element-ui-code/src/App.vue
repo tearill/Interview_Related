@@ -4,7 +4,9 @@
     <div id="nav">
       <router-link to="/el-alert">el-alert</router-link> |
       <router-link to="/carousel">carousel</router-link> |
-      <router-link to="/button">Button</router-link> 
+      <router-link to="/button">Button</router-link> |
+      <router-link to="/buttongroup">ButtonGroup</router-link> |
+      <router-link to="/badge">Badge</router-link>
     </div>
     <router-view/>
   </div>
