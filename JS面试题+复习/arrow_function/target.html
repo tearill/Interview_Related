@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 函数是 JS 里的一等公民，Object 本身是一个函数
+    // 函数可以作为构造函数来用，如何限制函数的调用方式一定是使用 new 的方式
+    function Person(name) {
+      console.log(new.target);
+      if (new.target !== undefined) {
+        this.name = name;
+      } else {
+        throw new Error('必须使用 new 命令才能生成实例');
+      }
+    }
+   
+    Person.prototype.sayName = function() {
+      console.log(`我是${this.name}`);
+    }
+
+    let lg = new Person('李广');
+    console.log(lg.name);
+    // {} 对象最开始 Object {}
+    // 函数跟对象是两码事
+    var o = Object() // {}
+    // 原型链顶端是 {} Object 既是一个对象，又是一个函数
+    console.log(o.__proto__ == Object.prototype);
+
+    function MyObj() {
+
+    }
+    typeof MyObj // function
+    var mo = new MyObj();
+    console.log(mo.__proto__ == MyObj.prototype);
+
+    // Person('李广');
+    // Person = name => {
+    //   console.log(new.target);
+    //   if (new.target !== undefined) {
+    //     this.name = name;
+    //   } else {
+    //     throw new Error('必须使用 new 命令才能生成实例');
+    //   }
+    // }
+    // let lg = new Person('李广');
+    // console.log(lg.name);
+    // Person('李广');
+  </script>
+</body>
+</html>
