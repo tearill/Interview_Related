@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数里的 super</title>
+</head>
+<body>
+  <script>
+    // // 父类
+    // var obj1 = {
+    //   sayHello() {
+    //     console.log('父类的sayHello');
+    //   }
+    // };
+    // // 子类
+    // var obj2 = {
+    //   sayHello() {
+    //     // 调用父类的方法
+    //     super.sayHello();
+    //     console.log('子类的sayHello');
+    //   }
+    // };
+    // // 构成父子关系？
+    // // Object 对象的新方法
+    // Object.setPrototypeOf(obj2, obj1);
+    // obj2.sayHello();
+    // 父类
+    var obj1 = {
+      sayHello: () => {
+        console.log('父类的sayHello');
+      }
+    };
+    // 子类
+    var obj2 = {
+      sayHello: () => {
+        // 调用父类的方法
+        super.sayHello();
+        console.log('子类的sayHello');
+      }
+    };
+    // 构成父子关系？
+    // Object 对象的新方法
+    Object.setPrototypeOf(obj2, obj1);
+    obj2.sayHello();
+  </script>
+</body>
+</html>
