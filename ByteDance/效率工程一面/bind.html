@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bind</title>
+</head>
+<body>
+  <script>
+    function Animal(name, color) {
+      this.name = name;
+      this.color = color;
+    }
+    Animal.prototype.say = function () {
+      return `I'm a ${this.color} ${this.name}`;
+    };
+    // myBind 方法
+    // bind: 返回一个函数
+    Function.prototype.myBind = function (thisObj, ...arg1) { // (this, 参数)
+      // 1
+      // 谁调用 bind，最终拼好的参数传给谁
+      // fn 或 this 上面，其实可能有个 .prototype 的对象
+      let fn = this;
+      function innerFunc(...arg2) {
+        // 2
+        const args = arg1.concat(arg2);
+        // 调用了，考虑 this 
+        // fn 调用完了之后 有 结果返回
+        // 因为 this 没有绑定到 cat 上，而是绑定到了 null，并没有做优先级的处理
+        // 判断是不是 this 调用？new.target | instanceof
+        let isNewCall = this instanceof innerFunc; // 是不是通过 new 来调用的
+        // 如果是 new 调用的 ？ 绑定到实例 ：thisObj
+        return fn.call(isNewCall ? this : thisObj, ...args);
+      }
+      innerFunc.prototype = fn.prototype;
+      return innerFunc;
+    }
+    // 有一个方法(这个方法上面可能存在 .prototype 的对象)调用 bind -> 经过 bind 处理，处理完之后返回一个方法 
+    // -> 但是返回的这个方法把原来的可能存在的 .prototype 对象弄丢了
+    // Cat 哪里来的？？ 
+    // 由 myBind 生成的，调用了 myBind 返回的函数(innerFunc)
+    // 最终：Cat === innerFunc
+    const Cat = Animal.myBind(null, 'cat');
+    const cat = new Cat('white');
+    // new Cat === new innerFunc
+    // innerFunc 上没有提供 say 方法，.prototype 已经丢了
+    // cat 
+    if (cat.say() === 'I\'m a white cat' &&
+      cat instanceof Cat && cat instanceof Animal) {
+      console.log('success');
+    }
+    console.log(cat.say());
+
+
+    function Fooo() {
+      // this === bbb
+      // bbb instanceof Fooo
+      this.a = 123;
+    }
+    let bbb = new Fooo();
+  </script>
+</body>
+</html>
