@@ -54,7 +54,8 @@
 
     function Fooo() {
       // this === bbb
-      // bbb instanceof Fooo
+      // bbb instanceof Fooo // true
+      // this instanceof Fooo // true
       this.a = 123;
     }
     let bbb = new Fooo();
