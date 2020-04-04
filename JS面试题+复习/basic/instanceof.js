@@ -14,3 +14,10 @@ function myInstanceof (left, right) {
 
 console.log(myInstanceof('111', String));
 console.log(myInstanceof(new String('111'), String));
+
+class PrimitiveNumber {
+  static [Symbol.hasInstance](x) {
+    return typeof x === 'number'
+  }
+}
+console.log(111 instanceof PrimitiveNumber) // true
