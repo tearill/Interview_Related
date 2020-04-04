@@ -54,7 +54,7 @@
 
 ### 0.1+0.2 为什么不等于 0.3？  
 0.1 和 0.2 在转换成二进制后会无限循环，由于标准位数的限制，后面对于的位数会被截掉，此时就已经出现可精度的损失，相加后因为浮点数小数位的限制而阶段的二进制数字再次转换为十进制就会变成 0.300000000000004...  
-参考资料：冴羽掘金文章👉https://juejin.im/post/5e6ee1b5f265da5710439f21  
+参考资料：冴羽大神掘金文章👉https://juejin.im/post/5e6ee1b5f265da5710439f21  
 
 ### BigInt  
 BigInt：ES6 新的数据类型，当整数值大于 Number 数据类型支持的范围(Number.MAX_SAFE_INTEGER， 最大是 2^53-1)，BigInt 可以使得程序安全地对大整数执行算数操作，表示高分辨率地时间戳，使用大整数 id 等  
@@ -114,6 +114,8 @@ typeof 的方式对于对象的判断不合适，采用 instanceof 会更好，i
   }
   console.log(111 instanceof PrimitiveNumber) // true
   ```
+  自定义 instanceof，将原有的 instanceof 重定义，改成 typeof 实现对基本类型的判断  
+  Symbol.hasInstance 用于判断某对象是否为某构造器的实例。因此可以用它自定义 instanceof 操作符在某个类上的行为
 
 ### 手动实现一个 instanceof  
 核心：基于原型链向上查找 - 见 instanceof.js  
@@ -121,3 +123,86 @@ typeof 的方式对于对象的判断不合适，采用 instanceof 会更好，i
 ### Object.is 和 === 的区别  
 Object 在严格等于的基础上修了一些特殊情况下的失误，比如 +0 和 -0  
 源码：--- 见 is.js  
+
+## JS 数据类型的转换  
+### [] == ![] 
+分析：左右两边都要转换成数字判断  
+[] 转换为数字 0  
+![] 先转换为布尔值，由于 [] 最为一个引用类型转换成布尔值为 true  
+因此 ![] 为 false，进而再转换成数字，变为 0  
+0 == 0，结果为 0  
+
+### JS 中类型转换有几种？  
+JS 中，类型转换只有三种：  
+  1. 转换成数字  
+  2. 转换成布尔值  
+  3. 转换成字符串  
+
+### == 和 === 的区别  
+  1. === 是严格相等，左右两边的不仅要值相等，类型也要相等，例如 '1' === 1 -> false  
+  2. == 是非严格相等，对于一般情况，只要值相等，就返回 true，但 == 还涉及一些类型转换规则：  
+    + 两边的类型是否相等，相同的话就比较值的大小  
+    + 判断的是否是 null 和 undefined，是的话就返回 true  
+    + 判断的类型是否是 String 和 Number，是的话就把 String 类型转换成 Number，再进行比较  
+    + 判断其中一方是否为 Boolean，是的话就把 Boolean 转换成 Number，再进行比较  
+    + 其中一方如果是 Object，且另一方为 String、Number 或 Symbol，会将 Object 转换成字符串，再进行比较  
+  ```js
+  console.log( {a: 1} == true ); // false
+  console.log( {a: 1} == "[object Object]" ); // true
+  ```
+### 对象转原始类型  
+对象转原始类型，会调用内置的 [ToPrimitive] 函数，有以下情况：  
+  1. 如有 Symbol.toPrimitive()，优先调用再返回  
+  2. 调用 valueOf()，如果转换为原始类型，则返回  
+  3. 调用 toString()，如果转换为原始类型，则返回  
+  4. 如果都没有返回原始类型，会报错  
+
+- 不同类型对象的valueOf()方法的返回值  
+  对象          | 返回值
+  ------------- | -------------
+  Array         | 返回数组对象本身
+  Boolean       | 布尔值
+  Date          | 存储的时间是从 1970 年 1 月 1 日午夜开始计的毫秒数 UTC
+  Function      | 函数本身
+  Number	      | 数字值
+  Object        |	对象本身。这是默认情况
+  String        |	字符串值
+  Math 和 Error | Math 和 Error 对象没有 valueOf 方法
+
+- Symbol.toPrimitive() 会干扰一个对象转换为原始值时输出的结果  
+  ```js
+  // 一个没有提供 Symbol.toPrimitive 属性的对象，参与运算时的输出结果
+  var obj1 = {};
+  console.log(+obj1);     // NaN
+  console.log(`${obj1}`); // "[object Object]"
+  console.log(obj1 + ""); // "[object Object]"
+
+  // 接下面声明一个对象，手动赋予了 Symbol.toPrimitive 属性，再来查看输出结果
+  var obj2 = {
+    [Symbol.toPrimitive](hint) {
+      if (hint == "number") {
+        return 10;
+      }
+      if (hint == "string") {
+        return "hello";
+      }
+      return true;
+    }
+  };
+  console.log(+obj2);     // 10      -- hint 参数值是 "number"
+  console.log(`${obj2}`); // "hello" -- hint 参数值是 "string"
+  console.log(obj2 + ""); // "true"  -- hint 参数值是 "default"
+  ```
+- 通过 valueOf 使 if(a == 1 && a == 2) 成立
+举个栗子：  
+  ```js
+  var a = {
+    value: 0,
+    valueOf: function() {
+      this.value++;
+      return this.value;
+    }
+  };
+  console.log(a == 1 && a == 2); // true
+  ```
+  给一个初始值，在判断的时候会调用对象的 valueOf 方法，每调用一次值会改变一次  
