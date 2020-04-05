@@ -190,8 +190,8 @@ JS 中，类型转换只有三种：
     }
   };
   console.log(+obj2);     // 10      -- hint 参数值是 "number"
-  console.log(`${obj2}`); // "hello" -- hint 参数值是 "string"
-  console.log(obj2 + ""); // "true"  -- hint 参数值是 "default"
+  console.log(`${obj2}`); // hello -- hint 参数值是 "string"
+  console.log(obj2 + ""); // true  -- hint 参数值是 "default"
   ```
 - 通过 valueOf 使 if(a == 1 && a == 2) 成立
 举个栗子：  
