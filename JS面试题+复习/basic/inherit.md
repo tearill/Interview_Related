@@ -1,6 +1,6 @@
 # JS 中的继承  
 1. call方式继承 / 借用构造函数继承  
-  把父类构造函数的this指向为子类实例化对象引用，从而导致父类执行的时候父类里面的属性都会被挂载到子类的实例上去  
+  把父类构造函数的 this 指向为子类实例化对象引用，从而导致父类执行的时候父类里面的属性都会被挂载到子类的实例上去  
   ```js
   function Parent1() {
       this.name = 'parent1';
@@ -24,7 +24,7 @@
   Child2.prototype = new Parent2();
   ```
   - 缺点：  
-  1. 构建的Child2对象会共享原型链，修改原型上的数据会导致子类中的属性全部跟着改变，实例化对象无法实现隔离  
+  1. 构建的 Child2 对象会共享原型链，修改原型上的数据会导致子类中的属性全部跟着改变，实例化对象无法实现隔离  
   2. 在创建 Child 实例的时候，不能向 Parent 传参  
   
 3. 寄生组合式继承  
@@ -62,10 +62,10 @@
   console.log(s1.constructor.name); // Parent4
   ```
   - 缺点：
-    1. instanceOf无法区分对象是由Child4还是Parent4实例化的，s1的构造函数是父类Parent4而不是Child4  
-    2. Child4.prototype = Parent4.prototype; 这句代码只是让Child4.prototype直接引用Parent4.prototype对象。因此在执行类似`Child4.prototype.key = value;`的赋值语句时会直接修改Parent4.prototype对象本身
+    1. instanceOf 无法区分对象是由 Child4 还是 Parent4 实例化的，s1 的构造函数是父类 Parent4 而不是 Child4  
+    2. Child4.prototype = Parent4.prototype; 这句代码只是让 Child4.prototype 直接引用 Parent4.prototype 对象。因此在执行类似`Child4.prototype.key = value;`的赋值语句时会直接修改 Parent4.prototype 对象本身
 
-5. 组合式继承优化2(继承最完美的方式)  
+5. 组合式继承优化2(继承最完美的方式) --- **寄生组合式继承**  
   ```js
   function Parent5() {
     this.name = 'parent5';
@@ -85,7 +85,7 @@
     var obj = Object.create(p)
     // Object.create({ name: "p" })
     ```
-  - 通过这种方式创建对象，新创建的对象obj的原型就是p，同时obj也拥有了属性name，这个新创建的中间对象的原型对象就是它的参数。
+  - 通过这种方式创建对象，新创建的对象 obj 的原型就是 p，同时 obj 也拥有了属性 name，这个新创建的中间对象的原型对象就是它的参数。
 
 6. 原型式继承  
   ```js
@@ -97,6 +97,3 @@
   ```
   是 ES5 中 Object.create() 的模拟实现，将传入的对象作为创建的对象的原型  
   - 缺点：包含引用类型的属性值始终都会共享相应的值，和原型链继承一样  
-
-
-
