@@ -93,4 +93,3 @@ console.log(obj.name); // Horace
   也就是 prototype_instruction.png 中红色的线条组成的链状结构  
   + 对象的 hasOwnProperty() 用来检查对象自身是否有某个属性  
   + 使用 in 检查对象中是否有某个属性时，如果对象自身没有但是原型链中有，也会返回 true  
-  
