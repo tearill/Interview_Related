@@ -53,21 +53,96 @@
 ## 闭包的表现形式  
   1. 返回一个函数  
   2. 作为函数参数传递  
-  ```js
-  var a = 1;
-  function foo() {
-    var a = 2;
-    function baz() {
-      console.log(a);
+    ```js
+    var a = 1;
+    function foo() {
+      var a = 2;
+      function baz() {
+        console.log(a);
+      }
+      bar(baz);
     }
-    bar(baz);
-  }
-  function bar(fn) {
-    // 这就是闭包
-    fn();
-  }
-  // 输出 2，而不是 1
-  foo();
-  ```
+    function bar(fn) {
+      // 这就是闭包
+      fn();
+    }
+    // 输出 2，而不是 1
+    foo();
+    ```
   3. 在定时器、事件监听、Ajax 请求、跨窗口通信、Web Workers 或者任何其他的异步(或者同步)中任务中，只要使用了回调函数，实际上就是在使用闭包  
+  4. IIFE 立即执行函数创建闭包，保存了全局作用域 window 和当前作用域，所以可以访问全局的变量  
+    ```js
+    var a = 2;
+    (function IIFE() {
+      console.log(a); // 2
+    })();
+    ```
+
+## 闭包经典问题  
+如何解决下面的循环输出问题？  
+```js
+for (var i = 0; i <= 5; i++) {
+  setTimeout(function timer() {
+    console.log(i);
+  }, 0);
+}
+```
+结果是输出五个 6，要求输出 1, 2, 3, 4, 5  
+- 输出五个 6 的原因  
+  因为 setTimeout 是宏任务，由于 JS 中单线程 EventLoop 的机制，遇到 setTimeout 产生宏任务，而宏任务在同步任务和微任务执行完成之后才会去执行宏任务，因为循环结束后 setTimeout 中的回调函数才会依次执行，但是输出 i 的时候在当前作用域中没有 i，所以往上一级查找到 i，但是因为循环结束了，i 已经变成了 6，所以依次输出五个 6  
+
+- 解法一：  
+  利用 IIFE，在每次循环的时候，把此时的 i 作为变量传递到定时器中  
+  ```js
+  for (var i = 0; i <= 5; i++) {
+    (function (j) {
+      setTimeout(function timer() {
+        console.log(i);
+      }, 0);
+    })(i)
+  }
+  ```
+
+- 解法二：  
+  给定时器传入第三个参数，作为 timer 定时器回调函数的参数  
+  ```js
+  for (var i = 0; i <= 5; i++) {
+    setTimeout(function timer(j) {
+      console.log(j);
+    }, 0, i);
+  }
+  ```
+
+- 解法三：  
+  ES6 的 let  
+  ```js
+  for (let i = 0; i <= 5; i++) {
+    setTimeout(function timer() {
+      console.log(i);
+    }, 0);
+  }
+  ```
+  let 使得 JS 拥有了块级作用域，用 let 之后作用域链不复存在，代码的作用域以块级为单位  
+  例如上面的代码实际执行：  
+  ```js
+  // i = 1
+  {
+    setTimeout(function timer() {
+      console.log(1);
+    }, 0);
+  }
+  // i = 2
+  {
+    setTimeout(function timer() {
+      console.log(1);
+    }, 0);
+  }
+  // i = 3
+  {
+    setTimeout(function timer() {
+      console.log(1);
+    }, 0);
+  }
+  // i = ......
+  ```
   
