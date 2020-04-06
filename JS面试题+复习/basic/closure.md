@@ -32,6 +32,7 @@ ECMAScript中，闭包指的是：
   作用域是从最底层开始向上找，直到找到全局作用域 window 位置，如果全局作用域还没有就会报错  
 
 - 闭包产生的本质就是：当前环境中存在指向父级作用域的引用  
+  也就是在当前函数的执行上下文中维护了一个作用域链，其中会保存父级的执行上下文中的 AO/VO，即使父级函数执行完毕，执行上下文被销毁之后，但是 JavaScript 依然会让父级执行上下文中的 AO 活在内存中，当前函数依然可以通过它的作用域链找到它，正是因为这样，JavaScript 实现了闭包这个概念  
   ```js
   function f1() {
     var a = 2;
@@ -155,3 +156,80 @@ for (var i = 0; i <= 5; i++) {
   // i = ......
   ```
   
+## 面试必考闭包题  
+  ```js
+  var data = [];
+
+  for (var i = 0; i < 3; i++) {
+    data[i] = function () {
+      console.log(i);
+    };
+  }
+
+  data[0]();
+  data[1]();
+  data[2]();
+  ```
+  最后的结果都是 3  
+  - 原因分析  
+    当执行到 data[0] 函数之前，此时的全局上下文的 VO 为:  
+    ```js
+    globalContext = {
+      VO: {
+        data: [...],
+        i: 3
+      }
+    }
+    ```
+    当执行 data[0] 函数的时候，data[0] 函数的作用域链为:  
+    ```js
+    data[0]Context = {
+      Scope: [AO, globalContext.VO]
+    }
+    ```
+    data[0]Context 的 AO 并没有 i 的值，所以会从 globalContext.VO 中查找，i 为 3，所以打印的结果就是 3  
+    以此类推  
+  - 改成闭包  
+    ```js
+    var data = [];
+
+    for (var i = 0; i < 3; i++) {
+      data[i] = (function (i) {
+        console.log(i);
+      })(i);
+    }
+
+    data[0]();
+    data[1]();
+    data[2]();
+    ```
+    当执行到 data[0] 函数之前，此时的全局上下文的 VO 为:  
+    ```js
+    globalContext = {
+      VO: {
+        data: [...],
+        i: 3
+      }
+    }
+    ```
+    和在使用闭包之前是一样的  
+    当执行 data[0] 函数的时候，data[0] 函数的作用域链发生了改变：  
+    ```js
+    data[0]Context = {
+      Scope: [AO, 匿名函数Context.AO globalContext.VO]
+    }
+    ```
+    匿名函数执行上下文的 AO 为：  
+    ```js
+    匿名函数Context = {
+      AO: {
+        arguments: {
+          0: 0,
+          length: 1
+        },
+        i: 0
+      }
+    }
+    ```
+    data[0]Context 的 AO 中并没有 i 这个值，所以会沿着作用域链从匿名函数Context.AO 中查找，这时候就会找到 i 为 0，找到了就不会再往 globalContext.VO 中查找，即使 globalContext.VO 中也有 i 的值，最后打印的结果是 0  
+    以此类推  
