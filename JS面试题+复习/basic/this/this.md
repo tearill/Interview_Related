@@ -163,4 +163,24 @@ call/apply/bind 可以显示绑定，主要讨论隐式绑定的场景
   }
   ```
   + 构造函数效果的模拟实现  
-  
+  ```js
+  Function.prototype.myBind = function(context) {
+    if (typeof this !== 'function') {
+      throw new Error('Function.prototype.bind - what is trying to bound is not callable');
+    }
+    var self = this; // 调用 bind 的函数
+    // 获取 bind 里面的参数
+    var args = Array.prototype.slice.call(arguments, 1);
+    var FNOP = function() {}
+    var innerFunc = function() { // 返回一个函数
+      var bindArgs = Array.prototype.slice.call(arguments); // 获取传给 bind 返回的函数的参数
+      // this instanceof innerFunc ? this : context 判断是不是通过 new 调用
+      return self.apply(this instanceof innerFunc ? this : context, args.concat(bindArgs)); // 拼接参数并调用函数
+    }
+    FNOP.prototype = this.prototype;
+    // innerFunc.prototype = this.prototype;
+    innerFunc.prototype = new FNOP();
+    return innerFunc;
+  }
+  ```
+  附加构造函数的优化，直接使用 `innerFunc.prototype = this.prototype;` 的话会直接修改绑定函数的 prototype，所以使用一个空函数来进行中转  
