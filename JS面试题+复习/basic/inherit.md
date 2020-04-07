@@ -27,7 +27,7 @@
   1. 构建的 Child2 对象会共享原型链，修改原型上的数据会导致子类中的属性全部跟着改变，实例化对象无法实现隔离  
   2. 在创建 Child 实例的时候，不能向 Parent 传参  
   
-3. 寄生组合式继承  
+3. 组合式继承  
   组合借用构造函数和原型链继承两种方式  
   ```js
   function Parent3() {
@@ -43,7 +43,7 @@
   实现了实例化对象的隔离  
   - 缺点：会多执行一次父类的构造函数，父类的构造函数被执行了两次  
           第一次：Child3.prototype = new Parent3();  
-          第二次：使用new实例化新对象的时候  
+          第二次：使用 new 实例化新对象的时候  
 
 4. 组合式继承优化1  
   直接把父类的原型对象赋给子类的原型对象  
@@ -63,7 +63,7 @@
   ```
   - 缺点：
     1. instanceOf 无法区分对象是由 Child4 还是 Parent4 实例化的，s1 的构造函数是父类 Parent4 而不是 Child4  
-    2. Child4.prototype = Parent4.prototype; 这句代码只是让 Child4.prototype 直接引用 Parent4.prototype 对象。因此在执行类似`Child4.prototype.key = value;`的赋值语句时会直接修改 Parent4.prototype 对象本身
+    2. Child4.prototype = Parent4.prototype; 这句代码只是让 Child4.prototype 直接引用 Parent4.prototype 对象。因此在执行类似`Child4.prototype.key = value;`的赋值语句时会直接修改 Parent4.prototype 对象本身  
 
 5. 组合式继承优化2(继承最完美的方式) --- **寄生组合式继承**  
   ```js
