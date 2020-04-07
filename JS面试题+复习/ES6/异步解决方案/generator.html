@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>generator</title>
+</head>
+<body>
+  <script>
+    function foo() {
+      // console.log(1);
+      // console.log(2);
+      // console.log(3);
+      // setTimeout(() => {
+      //   console.log(1);
+      // }, 2000);
+      // return 'foo';
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          console.log(123);
+        }, 2000);
+      });
+    }
+    function* test() {
+      console.log('start');
+      let a = yield foo(); // 不会等着定时器 2s 之后再往后执行
+      console.log('a', a); // a 的值和 yield 后面的值没有任何关系
+      // return true;
+      console.log('mid');
+      let b = yield 2;
+      console.log('b', b);
+      console.log('end');
+    }
+    // console.log(test().next());
+    // let g = test();
+    // console.log(g.next());
+    // 插入新的任务 foo
+    // foo();
+    // next 方法传递的参数是上一个 yield 的返回值
+    // console.log(g.next('A VALUE'));
+    // console.log(g.next('B VALUE'));
+    function generatorAutoRun(gen) {
+      let g = gen();
+      function next(value) { 
+        let res = g.next(value);
+        if (res.done) return;
+        next(res.value); // 上一次 value 属性上的结果
+      }
+      next();
+    }
+    generatorAutoRun(test);
+    // 协程 
+  </script>
+</body>
+</html>
