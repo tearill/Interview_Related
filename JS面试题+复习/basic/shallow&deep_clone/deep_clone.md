@@ -63,4 +63,15 @@
   3. 最后生成不可变对象的时候遍历对象，判断属性是否被修改过，也就是判断是否存在 copy。  
      如果没有修改过，就返回原属性，并且也不需要再对子属性对象遍历，提高了性能。  
      如果修改过，就需要把 copy 赋值到新对象上，并且递归遍历  
-  
+
+- 函数库lodash  
+  ```js
+  var _ = require('lodash');
+  var obj1 = {
+    a: 1,
+    b: { f: { g: 1 } },
+    c: [1, 2, 3]
+  };
+  var obj2 = _.cloneDeep(obj1);
+  console.log(obj1.b.f === obj2.b.f);// false
+  ``` 
