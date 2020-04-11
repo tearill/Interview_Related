@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script> -->
+</head>
+<body>
+  <script>
+    function myAjax() {
+      // options 保存和相应的基本格式
+      // options.type = (options.type || 'GET').toUpperCase(); // 请求方式 GET、POST 两种
+      // options.dataType = options.dataType || 'json'; // 响应数据格式，默认为 json 格式
+      // var params = formatParams(options.data);
+      var xhr; // XHR 对象
+      // 兼容性考虑
+      if (window.XMLHttpRequest) { // code for IE7+, firefox, Chrome, Opera, Safari
+        xhr = new XMLHttpRequest();
+      } else {
+        xhr = new ActiveXObject('Microsoft.XMLHttp'); // code for IE6, IE5
+      }
+      /*** 
+       * param
+        1. 请求方式: GET、POST
+            * GET方式：请求参数在 URL 后边拼接，send 方法空参
+            * POST方式：请求参数在 send 方法中定义
+        2. 请求的URL
+        3. 同步或异步请求：默认为 true(true 异步, false 同步)
+       */
+      xhr.open(
+        'GET', 
+        "http://localhost:1314", 
+        true
+      );
+      xhr.send();
+      xhr.onreadystatechange = function() {
+        // console.log('111');
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.responseText, "'response++++'");
+        }
+      }  
+    }
+    window.onload = myAjax();
+  </script>
+</body>
+</html>
