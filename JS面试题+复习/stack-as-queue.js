@@ -14,9 +14,12 @@ function inQueue() { // 入队操作
 
 function outQueue() {
   if (outStack.length === 0) { // 如果出队栈已经空了，就去从入队栈里把所有元素取出来
-    for (let i = 0; i < inStack.length; i++) {
-      const element = inStack.pop(); // 转移
-      outStack.push(element);
+    while(inStack.length) {
+      // const element = inStack.pop(); 
+      // console.log(inStack, '++++in');
+      // console.log(element, '-------');
+      // console.log(inStack.pop(), '--------');
+      outStack.push(inStack.pop()); // 转移
     }
   }
   if (outStack.length === 0 && inStack.length === 0) return undefined; // 两个栈都为空的时候出队，直接返回 null
@@ -26,14 +29,19 @@ function outQueue() {
 }
 
 // 测试
-let queue = [];
+// let queue = [];
 inQueue(1);
 inQueue(2);
 inQueue(3);
 console.log(inStack);
-outQueue();
-outQueue();
-outQueue();
+// console.log(outStack);
+// outQueue();
+console.log(outQueue(), '出队一个');
+console.log(outStack, '出队一次之后');
+inQueue(4);
+console.log(inStack, '中途进队一个');
+console.log(outQueue(), '出队两个');
+console.log(outQueue(), '出队三个');
 console.log(outQueue(), 'When stack is empty');
 console.log(inStack, '-----inStack');
 console.log(outStack, '-----outStack');
