@@ -80,6 +80,7 @@ BigInt：ES6 新的数据类型，当整数值大于 Number 数据类型支持�
 
 ## JS 中的数据类型检测  
 ### typeof  
+**typeof 可以检测到的结果：**`number, string, undefined, boolean, bigint, symbol, object, function`  
   1. 对于原始类型，除了 null 都可以调用 typeof 显示正确的类型  
     ```js
     typeof 1 -> 'number'  
