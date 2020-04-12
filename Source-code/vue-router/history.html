@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="nav">
+    <a href="/page1">page1</a>
+    <a href="/page2">page2</a>
+    <a href="/page3">page3</a>
+  </div>
+  <div id="container"></div>
+  <script>
+    class HistoryRouter {
+      constructor() {
+        this.routers = {};
+        // this.load();
+      }
+      register(path, cb = () => {}) {
+        this.routers[path] = cb; // 注册路由
+      }
+      registerIndex(path, cb = () => {}) {
+        this.routers['index'] = cb; // 注册首页路由
+      }
+      assign(path) { // 跳转到 path 路由
+        history.pushState({path}, null, path);
+        this.dealPathHandler(path);
+      }
+      replace(path) { // 替换为 path 路由
+        history.replaceState({path}, null, path);
+        this.dealPathHandler(path);
+      }
+      dealPathHandler(path) { // 执行回调
+        let handler;
+        if (!this.routers.hasOwnProperty(path)) {
+          handler = this.routers.index; // 简单处理，直接导向首页
+        } else {
+          handler = this.routers[path];
+          console.log(this.routers, '----------');
+        }
+        // handler.call(this);
+        handler();
+      }
+      load() {
+        let path = location.pathname;
+        this.dealPathHandler(path);
+      }
+    }
+    let router = new HistoryRouter(); // history 路由对象实例
+    let container = document.getElementById('container');
+
+    router.registerIndex(() => container.innerHTML = '首页'); // 首页路由
+    router.register('/page1', () => container.innerHTML = '/page1'); // 路由
+    router.register('/page2', () => container.innerHTML = '/page2');
+    router.register('/page3', () => container.innerHTML = '/page3');
+    router.load();
+  </script>
+</body>
+</html>

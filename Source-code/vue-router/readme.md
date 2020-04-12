@@ -1,4 +1,4 @@
-# vue-router 的源码实现  
+# vue-router 的两种模式  
 参考掘金原文👉https://juejin.im/post/5d2d19ccf265da1b7f29b05f  
 
 ## 总体分析  
@@ -32,3 +32,25 @@
   4. 构造函数中监听 hashchange 事件，在 routers 中取出相应的回调函数进行执行  
   5. 注册回调修改 div 中的文本模拟切换路由时候的页面操作  
   ps: handler.call(this); 使用 call 绑定当前 hash 路由对象，是为了在切换 hash 页面的时候可以拿到 routers 的数据，更加合理  
+
+## history 方式实现  
+- HTML5 的 history 对象  
+  1. history.go(-1); 后退一页  
+  2. history.go(2); 前进两页  
+  3. history.forward(); 前进一页  
+  4. history.back(); 后退一页
+  5. history.pushState(); **添加新的状态**到历史状态栈  
+  6. history.replaceSate(); **用新的状态代替**当前状态  
+  7. history.state; 返回当前状态对象  
+
+- history.pushState(); 和  history.replaceSate();  
+  默认都接受三个参数 (state, title, url)  
+  1. state: 合法的 JS 对象，可以用在 popstate 事件中  
+  2. title：现在大多数浏览器忽略这个参数，可以直接用 null 代替  
+  3. url：任意有效的 URL，用于更新浏览器的地址栏  
+
+- 单页应用的 history 模式，url 的改变只能由四种方式引起：  
+  1. 点击浏览器的前进或后退  
+  2. 点击 a 标签  
+  3. 在 JS 中触发 history.pushState();  
+  4. 在 JS 中触发 history.replaceSate();  
