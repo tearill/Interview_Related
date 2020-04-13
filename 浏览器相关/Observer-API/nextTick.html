@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nextTick</title>
+</head>
+<body>
+  <div id="name"></div>
+  <script>
+    let name = "Horace";
+    const node = document.querySelector('#name');
+    function render() {
+      node.innerHTML = name;
+    }
+    let promise = Promise.resolve();
+    // 等数据变化完成再去渲染
+    // promise.then(render);
+    setTimeout(render);
+    for (let i = 0; i < 10000; i++) {
+      name = i;
+      // render(); // 渲染 10000 次
+    }
+  </script>
+</body>
+</html>

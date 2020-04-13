@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntersectionObserver</title>
+  <style>
+    img {
+      margin-top: 1500px;
+      width: 254px;
+      height: 318px;
+      border: 1px solid #000;
+      display: block;
+    }
+    .wrapper {
+      width: 500px;
+      height: 500px;
+      overflow: scroll;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <img src="default.png" target-src="https://gw.alicdn.com/tfs/TB1hJ2KX6ihSKJjy0FlXXadEXXa-254-318.png" alt="">
+    <img src="default.png" target-src="https://gd3.alicdn.com/imgextra/i2/1970877023/O1CN01W2tvEj21kaA9zn4C8_!!1970877023.jpg" alt="">
+  </div>
+  <script>
+    const observer = new IntersectionObserver(function(entry) {
+      // 和浏览器可视区有交叉
+      console.log(entry, '------'); // 数组
+      entry.forEach(node => {
+        if (node.isIntersecting) { // 图片出现了
+          console.log('我出现了');
+          const targetSrc = node.target.getAttribute('target-src');
+          node.target.src = targetSrc;
+          // 加载完 src 之后图片显示了，之后不想再观察了
+          observer.unobserve(node.target);
+        }
+      });
+    }, {
+      root: document.querySelector('wrapper'), // 指定相对谁滚动，默认相对整个视窗
+      rootMargin: '0px 0px 100px 0px', // 让我们计算某个出现在可视区域内，是按照 margin 的规则排列之后计算的
+      // threshold: [1, 0.5] // 阀值 0 ~ 1 50% 和 100% 的时候通知
+    });
+    const imgs = document.querySelectorAll('img');
+    imgs.forEach(item => {
+      observer.observe(item);
+    })
+  </script>
+</body>
+</html>
