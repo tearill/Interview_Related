@@ -45,3 +45,14 @@ XSS 攻击有两大要素：
   提供上报机制，及时发现 XSS 攻击  
 3. 利用 HttpOnly  
   设置 Cookie 的 HttpOnly 之后，JS 无法读取 Cookie  
+
+纯前端渲染的过程：  
+1. 浏览器先加载一个静态 HTML，此 HTML 中不包含任何跟业务相关的数据  
+2. 然后浏览器执行 HTML 中的 JavaScript  
+3. JavaScript 通过 Ajax 加载业务数据，调用 DOM API 更新到页面上  
+
+转义 HTML  
+
+避免在字符串中拼接不可信数据  
+
+输入内容长度控制
