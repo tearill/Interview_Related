@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>性能监测</title>
+</head>
+<body>
+  <img src="http://wimg.huodongxing.com/logo/202004/2539386424100/453745740874353_v2.jpg@!wmlogo" alt="">
+  <script>
+    // api
+    // .getEntries() 可以拿到页面加载的性能指标，但只能拿到(当前这个时间节点) js 以前发生的性能指标(网页加载、TCP 握手)
+    // performance
+    //   .getEntries()
+    //   .forEach(e => {
+    //     console.table(e);
+    //   })
+    const observer = new PerformanceObserver((lists) => {
+      lists.getEntries().forEach(entry => {
+        // console.log(entry);
+        // console.log('TCP 耗时:', entry.connectEnd - entry.connectStart);
+        // console.log('DOM 解析耗时:', entry.domInteractive - entry.responseEnd);
+        // console.log('页面完全加载耗时:', entry.loadEventStart - entry.fetchStart);
+      }); // 拿到所有的指标
+      
+    });
+    observer.observe({
+      // entryTypes: ['resource'] // 资源
+      // entryTypes: ['paint'] // 页面绘制 
+      // FP -> 第一个像素落点 | FCP -> 内容绘制 | FMP(First-Meaningful-Paint) ->  量化页面数据
+      // entryTypes: ['navigation']
+      entryTypes: ['longtask', 'measure', 'mark']
+    });
+    performance.mark('cal-start');
+    let a = 0;
+    for (let i = 0; i < 10000000; i++) {
+      a = Math.random();
+    }
+    performance.mark('cal-end');
+    performance.measure('for-spend', 'cal-start', 'cal-end');
+
+    // 懒加载 1：自己不停地监听 scroll 不停计算 2: Intersection Observer
+    // 往后的性能指标 performance 无法监测
+    const img = document.createElement('img');
+    img.src = 'https://www.fundebug.com/assets/images/landing/paid_user_logo_list.45f7f49a.jpg'
+    document.body.appendChild(img);
+    // 整个页面加载完
+    window.onload = function() {
+
+    }
+  </script>
+</body>
+</html>
