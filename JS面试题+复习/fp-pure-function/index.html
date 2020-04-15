@@ -1,0 +1,61 @@
+<script src="https://cdn.bootcss.com/lodash.js/4.17.15/lodash.min.js"></script>
+<script>
+  // 纯函数
+  // FP Function Programming
+  // 没有任何副作用，同样的输入一定会有同样的输出
+  const add = (a, b) => a + b;
+  // add(1, 2); // 一定会是 3，结果明确
+  let c = 100;
+  const add1 = (a, b) => a + b + c; // 结果跟着 c 改变
+  // add1(10, 20) => 130
+  c = 200;
+  // add1(10, 20) => 230
+  const add2 = (a, b) => {
+    c = 300; // 副作用，会对外部环境造成影响
+    console.log(c);
+    return a + b;
+  }
+
+  add2(10, 20);
+  function min(a, b) {
+    console.log('recalculate');
+    return a - b;
+  }
+  console.log(min(10, 8));
+  console.log(min(10, 8));
+  console.log(min(10, 8));
+  const mMin = _.memoize(min);
+  // min 有缓存功能
+  console.log(mMin(10, 8));
+  console.log(mMin(10, 8));
+  console.log(mMin(10, 8));
+
+  let map = {}; // 缓存在 map 里
+  function minMemoize(a, b) {
+    let key = `${a}${b}`;
+    if (map[key] !== undefined) return map[key];
+    console.log('recalculate');
+    let res = a - b; 
+    map[key] = res; // 缓存，依据 a、b缓存
+    return res;
+  }
+
+  function memoize(fun) {
+    let map = {};
+    // 返回一个带有缓存功能的函数
+    return function(...args) {
+      // func 需要的 args
+      let key = JSON.stringify(args);
+      if (map[key] !== undefined) return map[key];
+      let res = fun(...args);
+      // 缓存结果
+      map[key] = res;
+      return res;
+    }
+  }
+  const mMin1 = memoize(min);
+  console.log(mMin1(12, 12));
+  console.log(mMin1(12, 12));
+  console.log(mMin1(12, 12));
+
+</script>
