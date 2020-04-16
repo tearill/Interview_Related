@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单例模式</title>
+  <style>
+    .model {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, .1);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- <button onclick="openModel">open model</button> -->
+  <div id="app"></div>
+  <div class="alert model"></div>
+  <script>
+    let instance = null;
+    // function getSingleInstance() {
+    //   if (!instance) return instance;
+    //   instance = new Model();
+    //   return instance;
+    // }
+    function Model() {
+      this.ele = document.createElement('div');
+      this.ele.classList.add('model');
+      if (!instance) {
+        instance = this;
+      }
+      return instance;
+    }
+    Model.prototype.open = function() {
+      document.body.appendChild(this.ele);
+      this.ele.style.display= 'block';
+    }
+    Model.prototype.content = function(content) {
+      this.ele.innerHTML = content;
+    }
+    Model.prototype.close = function() {
+      document.body.removeChild(this.ele);
+    }
+    // 实例
+    let m = new Model();
+    m.open();
+    m.content('Horace');
+    setTimeout(() => {
+      m.close();
+    }, 3000)
+    // 多个弹框
+    // 无论 new 多少次，始终只有一个实例(单例)
+    // m1 === m -> true
+    let m1 = new Model();
+    console.log(m1 === m);
+  </script>
+</body>
+</html>
