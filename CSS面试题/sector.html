@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS 画扇形</title>
+  <style>
+    .sector1 {
+      width: 100px;
+      height: 100px;
+      border-radius: 100px 0 0;
+      background: red;
+      /* 原理是利用 边框圆角的属性设置盒子的某一个角为圆角 然后其他角设置为0 然后给整个盒子加背景色就只显示出一个扇形角 */
+    }
+    .sector2 {
+      width: 0;
+      height: 0;
+      border-radius: 100px;
+      border-width: 100px;
+      border-style: solid;
+      border-color: red transparent transparent transparent;
+      /* 原理是利用边框颜色可以分别设置的属性 
+      设置其中一条边框有颜色其他边框没有颜色 
+      在把整个盒子变为圆角盒子没有宽高只显示出边框部分  
+      突出扇形 */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sector1"></div>
+  <hr />
+  <div class="sector2"></div>
+</body>
+
+</html>
