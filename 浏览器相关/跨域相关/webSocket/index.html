@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>webSocket 跨域</title>
+</head>
+
+<body>
+  <script>
+    // 定义数据
+    let Data = {
+      name: 'Horace',
+      age: 20
+    }
+    let socket = new WebSocket('ws://localhost:4000');
+    socket.onopen = function () {
+      socket.send(JSON.stringify(Data)); // 向服务器发送数据
+    }
+    socket.onmessage = function (e) {
+      console.log(JSON.parse(e.data)); // 接收服务器返回的数据
+    }
+  </script>
+</body>
+
+</html>
