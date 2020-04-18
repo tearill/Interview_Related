@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JSONP 跨域</title>
+</head>
+<body>
+  <script>
+    // 自定义 JSONP 函数实现跨域
+    function JSONP({ url, params, callback}) {
+      return new Promise((resolve, reject) => {
+        let script = document.createElement('script'); // 创建 script 节点
+        // params = JSON.parse(JSON.stringify(params));
+        let arr = [];
+        Object.keys(params).forEach(key => { // url 中的参数
+          arr.push(`${key}=${params[key]}`);
+        });
+        // console.log(arr);
+        arr.push(`callback=${callback}`); // 添加回调函数的参数
+        // console.log(arr.join('&'));
+        script.src = `${url}?${arr.join('&')}`; // 设置跨域的 url
+        document.body.appendChild(script); // 添加到页面上
+        window[callback] = function(data) { // 注册回调，数据交给 then 去处理
+          resolve(data);
+          document.body.removeChild(script);
+        }
+      })
+    }
+
+    JSONP({
+      url: 'http://localhost:3000/test',
+      params: {
+        msg: 'You are done'
+      },
+      callback: 'show'
+    }).then(res => {
+      console.log(res, '-----data');
+    })
+
+  </script>
+</body>
+</html>
