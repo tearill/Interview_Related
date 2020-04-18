@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CORS 跨域</title>
+</head>
+
+<body>
+  <script>
+    let xhr = new XMLHttpRequest();
+    document.cookie = 'name=Horace';
+    xhr.withCredentials = true; //前端设置是否带 cookie
+    xhr.open('PUT', 'http://localhost:4000/getData', true);
+    xhr.setRequestHeader('name', 'Horace');
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4) {
+        if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
+          console.log(JSON.parse(xhr.response));
+          console.log(xhr.getResponseHeader('name'))
+        }
+      }
+    }
+    xhr.send();
+  </script>
+</body>
+
+</html>
