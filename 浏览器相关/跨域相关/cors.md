@@ -3,8 +3,8 @@
   一个域下的文档或脚本试图去请求另一个域下的资源  
   是浏览器施加的安全限制  
 ## 同源策略  
-  同源策略是一种约定，是浏览器最核心最基本的安全功能，缺少同源策略，浏览器容易收到XSS、CSRF等攻击  
-  所谓同源是指"协议+域名+端口"三者相同，即便两个不同的域名指向同一个ip地址，也非同源  
+  同源策略是一种约定，是浏览器最核心最基本的安全功能，缺少同源策略，浏览器容易受到 XSS、CSRF 等攻击  
+  所谓同源是指 "协议 + 域名 + 端口" 三者相同，即便两个不同的域名指向同一个 ip 地址，也非同源  
 
 ***注意的点：***  
 1. 如果是协议和端口造成的跨域，前端无法处理  
@@ -34,4 +34,43 @@
   CORS 是目前主流的跨域解决方案，跨域资源共享(CORS) 是一种机制，它使用额外的 HTTP 头来告诉浏览器，让运行在一个 origin (domain) 上的Web 应用被准许访问来自不同源服务器上的指定的资源。  
   CORS 需要浏览器和后端同时支持  
   服务端设置 Access-Control-Allow-Origin 就可以开启 CORS  
+  - 简单请求  
+    1. GET、HEAD、POST 请求  
+    2. Content-Type 为：text/plain、multipart/form-data、application/x-www-form-urlencoded  
+  - 复杂请求  
+    简单请求之外的请求  
+  **复杂请求跨域在正式通信前会先发送一个 OPTIONS 请求 --- "预检"请求，确认后端是否允许跨域请求**  
+  
+### postMessage  
+  postMessage 是 HTML5 XMLHttRequest Level 2 中的 API，允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递  
+  `otherWindow.postMessage(message, targetOrigin, [transfer])`  
+  1. otherWindow：其他窗口的一个引用  
+  2. message：将要发送到其他窗口的信息  
+  3. targetOrigin：指定哪些窗口能接收到消息事件  
+  4. transfer：可选，一串和message 同时传递的 Transferable 对象. 这些对象的所有权将被转移给消息的接收方，而发送一方将不再保有所有权
+
+### websocket  
+  webSocket 是一种双向通信协议，在建立连接之后，WebSocket 的 server 与 client 都能主动向对方发送或接收数据，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了，因此可以跨域  
+
+  WebSocket 协议本质是一个基于 TCP 的协议，为了建立一个 WebSocket 连接，客户端浏览器首先要向服务器发起一个 HTTP 请求，其中附加头信息 "Upgrade:WebSocket"，表明这是一个申请协议升级的 HTTP 请求，服务器端解析这些附加的头信息然后产生应答信息返回给客户端，客户端和服务器端的 WebSocket 连接就建立起来了，双方就可以通过这个连接通道自由的传递信息，并且这个连接会持续存在直到客户端或者服务器端的某一方主动的关闭连接  
+
+  Socket.io  
+  前端：  
+  new webSocket()  
+  socket.onopen()  
+  socket.onmessage()  
+  后端：  
+  new WebSocket.Server({port})  
+  on('connection')  
+  ws.on('message')  
+
+### node中间件代理(两次跨域)  
+  实现原理: **同源策略是浏览器需要遵循的标准,而如果是服务器向服务器请求就无需遵循同源策略。**  
+  1. 接收客户端请求  
+  2. 将请求转发给服务器  
+  3. 拿到服务器响应数据  
+  4. 将响应转发给客户端  
+
+## Nginx 反向代理  
+  即所有客户端的请求都必须先经过 nginx 的处理，nginx 作为代理服务器再讲请求转发给 node 或者 java 服务，这样就规避了同源策略  
   
