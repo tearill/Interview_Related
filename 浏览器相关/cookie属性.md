@@ -3,6 +3,7 @@
 ## 定义相关  
 1. Name  
 2. Value  
+3. Size
 
 ## 生命周期  
 1. Expire：设置 Cookie 的过期时间  
