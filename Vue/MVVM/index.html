@@ -22,6 +22,7 @@
     <button v-on:click="handleClick">btn one</button>
     <button @click="handleClick">btn two</button>
   </div>
+  <script src="./Observer.js"></script>
   <script src="./myVue.js"></script>
   <script>
     let vm = new myVue({
@@ -38,6 +39,8 @@
       methods: {
         handleClick() {
           console.log(this, '------click');
+          // this.$data.person.name = '学习MVVM';
+          this.person.name = '学习MVVM';
         }
       }
     })
