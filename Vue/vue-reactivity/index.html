@@ -1,0 +1,58 @@
+<ul>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul>
+<!-- <script src="./reactivity.global.js"></script> -->
+<script src="./reactive.js"></script>
+<script>
+  // const { reactive, effect } = VueObserver
+  const data = {
+    name: 'myName',
+    age: 20,
+    sex: 'male'
+  }
+  const observerData = reactive(data)
+  const list = document.querySelectorAll('li')
+  // effect 默认执行一次 => 页面第一次渲染
+  effect(() => {
+    // 这个函数的执行触发一个 get
+    list[0].innerHTML = `${observerData.name}`
+    console.log('name effect', observerData.name)
+  })
+  effect(() => {
+    list[1].innerHTML = `${observerData.age}`
+    console.log('age effect', observerData.age)
+  })
+  effect(() => {
+    list[2].innerHTML = `${observerData.sex}`
+    console.log('sex effect', observerData.sex)
+  })
+  setTimeout(() => {
+    // age 产生变更
+    // 自动找 age effect 执行
+    // 1. 把所有依赖了 name age sex 的地方全部收集起来
+    // 2. 发生 set 的时候找到修改的地方自动触发重新执行一遍
+    observerData.age = 30
+    observerData.sex = 'female'
+  }, 2000)
+  // let obj = { name: 'name' }
+  // let proxyObj = new Proxy(obj, {
+  //   get(target, key, receiver) {
+  //     console.log('get')
+  //     let res = Reflect.get(target, key, receiver)
+  //     return res
+  //   },
+  //   set(target, key, receiver) {
+  //     // target[key] = receiver
+  //     console.log('set', target, key, receiver)
+  //     let res = Reflect.set(target, key, receiver)
+  //     return res
+  //   },
+  //   // deleteProperty() {},
+  //   // getPrototypeOf() {}
+  // })
+  // proxyObj.name = 'newName'
+  // console.log(proxyObj.name)
+  // Object.getPrototypeOf(proxyObj)
+</script>
