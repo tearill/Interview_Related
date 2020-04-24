@@ -16,7 +16,7 @@ PUT 和 PATCH 都是给服务器发送修改资源，而 PATCH 用来对已知�
   ```js
   artucle = {
     author: 'Horace22222',
-    createDate: new Date,
+    createDate: new Date(),
     content: '大三前端练习生',
     id: 123456
   }
