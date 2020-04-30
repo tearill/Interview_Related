@@ -20,6 +20,12 @@ Function.prototype.myBind = function(context) {
 const sum = (a, b, c) => {
   return a + b + c;
 }
-console.log(sum(10, 10, 10));
+
+// console.log(sum(10, 10, 10));
+
+let testSum = sum.bind(null, 10);
 let sum10 = sum.myBind(null, 10);
+
+console.log(testSum(10, 20));
+console.log('-------------------');
 console.log(sum10(10, 20));
