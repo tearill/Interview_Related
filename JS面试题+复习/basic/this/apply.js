@@ -1,13 +1,13 @@
 Function.prototype.myApply = function(context, arr) {
-  var context = context || window; // 当传入的 this 参数为 null 的时候指向 window
+  var context = Object(context) || window; // 当传入的 this 参数为 null 的时候指向 window
   context.fn = this; // 拿到调用 apply 的那个函数
-  let result;
+  var result;
   if (!arr) {
     result = context.fn(); // 如果不带参数，直接执行
   } else {
-    let args = [];
-    for (let i = 1, len = arr.length; i < len; i++) {
-      args.push('arguments[' + i + ']');
+    var args = [];
+    for (let i = 0, len = arr.length; i < len; i++) {
+      args.push('arr[' + i + ']');
     }
     result = eval('context.fn(' + args + ')');
   }
@@ -24,8 +24,14 @@ function bar(name, age) {
   console.log(age);
   console.log(this.value);
 }
-bar.myApply(foo); // 1
+
+bar.apply(foo);
+bar.myApply(foo); // undefined undefined 1
+console.log('--------------------');
+
+bar.apply(foo, ['Horace', 18]);
 bar.myApply(foo, ['Horace', 18]); // Horace 18 1
+console.log('--------------------');
 
 var value = 2;
 let obj = {
@@ -33,7 +39,7 @@ let obj = {
 }
 
 function baz(name, age) {
-  console.log(this.value);
+  // console.log(this.value);
   return {
     value: this.value,
     name: name,
@@ -41,5 +47,9 @@ function baz(name, age) {
   };
 }
 
+baz.apply(null);
 baz.myApply(null);
+console.log('--------------------')
+
+console.log(baz.apply(obj, ['Horace', 18]))
 console.log(baz.myApply(obj, ['Horace', 18]));

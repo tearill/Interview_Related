@@ -1,7 +1,13 @@
 Function.prototype.myApply = function(context, arr) {
-  var context = context || window;
+  context = Object(context) || window;
   context.fn = this; // 拿到调用 apply 的函数
-  let result = eval('context.fn(arr)');
+  let result
+  if (!arr) {
+    result = context.fn();
+  } else {
+    result = eval('context.fn(...arr)');
+  }
+  // let result = context.fn(arr)
   delete context.fn;
   return result;
 }
@@ -15,10 +21,14 @@ function bar(name, age) {
   console.log(age);
   console.log(this.value);
 }
-bar.myApply(foo); // 1
-console.log('--------------------------------');
+
+bar.apply(foo);
+bar.myApply(foo); // undefined undefined 1
+console.log('--------------------');
+
+bar.apply(foo, ['Horace', 18]);
 bar.myApply(foo, ['Horace', 18]); // Horace 18 1
-console.log('--------------------------------');
+console.log('--------------------');
 
 var value = 2;
 let obj = {
@@ -26,7 +36,7 @@ let obj = {
 }
 
 function baz(name, age) {
-  console.log(this.value);
+  // console.log(this.value);
   return {
     value: this.value,
     name: name,
@@ -34,6 +44,9 @@ function baz(name, age) {
   };
 }
 
+baz.apply(null);
 baz.myApply(null);
-console.log('--------------------------------');
+console.log('--------------------')
+
+console.log(baz.apply(obj, ['Horace', 18]))
 console.log(baz.myApply(obj, ['Horace', 18]));
