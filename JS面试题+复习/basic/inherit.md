@@ -1,4 +1,5 @@
 # JS 中的继承  
+## ES5 中的继承  
 1. call方式继承 / 借用构造函数继承  
   把父类构造函数的 this 指向为子类实例化对象引用，从而导致父类执行的时候父类里面的属性都会被挂载到子类的实例上去  
   ```js
@@ -104,3 +105,64 @@
   ```
   是 ES5 中 Object.create() 的模拟实现，将传入的对象作为创建的对象的原型  
   - 缺点：包含引用类型的属性值始终都会共享相应的值，和原型链继承一样  
+
+## ES6 中的继承  
+class 关键字，使用 extends 关键字实现继承  
+```js
+class Point { /* ... */ }
+
+class ColorPoint extends Point {
+  super()
+  constructor() {
+  }
+}
+
+let cp = new ColorPoint()
+```
+
+## ES5 继承和 ES6 继承的区别  
+1. ES5 的继承实质上是**先创建子类的实例对象 this**，然后再将父类的方法添加到 this 上面（Parent.apply(this)）
+2. ES6 的继承机制实质上是**先将父类实例对象的方法和属性添加到 this 上面**(所以子类必须先调用 super 方法)，然后再用子类的构造函数修改 this  
+3. ES5 的继承不能自定义原生构造函数的子类，比如 Array，因为 ES5 的继承是先创建子类实例对象 this，再将父类类的属性和方法加到子类上，由于父类内部属性无法获取，导致无法继承原生的构造函数  
+4. ES6 的继承可以自定义原生构造函数的子类，ES6 继承先创建父类实例的对象 this，然后再用子类的构造函数修改 this，使得父类的所有行为都可以继承  
+
+- class 的 `prototype` 和 `__proto__` 属性  
+class 作为构造函数的语法糖，同时具有 prototype 和 `__proto__` 属性  
+1. 子类的 `__proto__` 属性表示构造函数的继承，指向父类  
+2. 子类 `prototype` 属性的 `__proto__` 表示方法的继承，指向父类的 `prototype`  
+```js
+class A {}
+class B extends A {}
+
+B.__proto__ === A; // true
+B.prototype.__proto__ === A.prototype; // true
+```
+  - 原因  
+    产生上面那样结果的原因是，ES6 类的继承实现方式是下面这样的  
+    ```js
+    class A {}
+    class B {}
+    // B 的实例继承 A 的实例
+    Object.setPrototypeof(B.prototype, A.prototype);
+    // B 继承 A 的静态属性
+    Object.setPrototypeof(B, A);
+
+    const b = new B();
+    ```
+  - Object.setPrototypeof 的实现  
+    ```js
+    Object.setPrototypeOf = function (obj, proto) {
+      obj.__proto__ = proto;
+      return obj;
+    }
+    ```
+    所以
+    ```js
+    Object.setPrototypeOf(B.prototype, A.prototype);
+    // 等同于
+    B.prototype.__proto__ = A.prototype;
+
+    Object.setPrototypeOf(B, A);
+    // 等同于
+    B.__proto__ = A;
+    ```

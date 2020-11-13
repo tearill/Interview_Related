@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./button.css">
+  <style>
+  </style>
+</head>
+
+<body>
+  <button class="button">按钮</button>
+  <script>
+    // 使用纯 CSS 做 hover 渐变按钮
+    // 1. 可交互的环形渐变按钮，环形的中间点与鼠标位置有关
+    // 2. js mousemove 事件得到鼠标位置(环形的中间点)
+    // 3. css 变量 使用 js 来改变
+    // 4. transition
+    document.querySelector('.button').onmousemove = (e) => {
+      // 得到偏移量
+      const x = e.pageX - e.target.offsetLeft
+      const y = e.pageY - e.target.offsetTop
+      // js 设置 css 变量
+      e.target.style.setProperty('--x', `${x}px`)
+      e.target.style.setProperty('--y', `${y}px`)
+    }
+  </script>
+</body>
+
+</html>

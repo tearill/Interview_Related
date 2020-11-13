@@ -1,0 +1,27 @@
+.button
+  position relative
+  // 去除默认的样式
+  -webkit-appearance none
+  appearance none
+  background-color #f72359
+  padding 1em 2em
+  border none
+  font-size 1.2em
+  cursor pointer
+  outline none
+  overflow hidden
+  border-radius 100px
+  // 伪元素做环形渐变
+  &::before
+    --size 0
+    content ''
+    position absolute
+    left var(--x)
+    top var(--y)
+    width var(--size)
+    height var(--size)
+    background radial-gradient(circle closest-side, #4405f7, transparent)
+    // 让鼠标在区域的正中央
+    transform translate(-50%, -50%)
+  &:hover::before
+    --size 400px

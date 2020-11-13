@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>grid 布局实现九宫格布局</title>
+  <style>
+    li {
+      list-style: none;
+      background-color: yellowgreen;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+
+    li:nth-child(5) {
+      background-color: #f00;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-gap: 10px;
+      grid-auto-flow: row;
+    }
+  </style>
+</head>
+<body>
+  <h2>grig 布局实现九宫格布局 自适应</h2>
+  <div>
+    <div class="grid">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+    </div>
+  </div>
+</body>
+</html>

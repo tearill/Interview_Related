@@ -23,6 +23,12 @@
         document.body.appendChild(script); // 添加到页面上
         window[callback] = function(data) { // 注册回调，数据交给 then 去处理
           resolve(data);
+          delete window[callback];
+          document.body.removeChild(script);
+        }
+        script.onerror = function(err) {
+          reject(err);
+          delete window[callback];
           document.body.removeChild(script);
         }
       })

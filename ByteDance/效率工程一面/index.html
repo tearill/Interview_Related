@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>div 垂直居中，左右 10px，高度始终为宽度一半</title>
   <style>
     * {
       margin: 0;
@@ -16,7 +16,7 @@
       align-items: center;
     }
     .out {
-      background-color: blue;
+      background-color: yellowgreen;
       width: 100%;
       margin-left: 10px;
       margin-right: 10px;
@@ -24,8 +24,8 @@
       font-size: 20px;
     }
     .in {
-      /* padding 百分比 相对于自己的宽度来计算 */
-      padding: 25% 0;
+      /* padding 百分比 相对于自己的包含块的宽度来计算 */
+      padding: 25% 0; /* 左右的 padding 占据了包含块 - 也就是 out 的 50% */
       height: 0;
     }
     /* position: 

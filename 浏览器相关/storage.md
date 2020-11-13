@@ -29,7 +29,7 @@ Cookie 本质上是浏览器里面存储的一个很小的`文本文件`，内�
 利用 localStorage 的较大容量和持久特性，可以利用 localStorage 存储一些内容稳定的资源，比如官网的 logo、存储 Base64 格式的图片资源  
 
 ## sessionStorage  
-1. 容量，上线 5M  
+1. 容量，上限 5M  
 2. 只存在客户端，默认不参与和服务端的通信  
 3. 接口封装  
 4. 会话级存储，会话结束(页面关闭)，sessionStorage 就不存在了  

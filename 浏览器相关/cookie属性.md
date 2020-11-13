@@ -16,7 +16,7 @@
 ## 安全相关  
 1. Secure：只能通过 HTTPS 传输 Cookie  
 2. HttpOnly：只能通过 HTTP 传输，JS 无法访问(预防 XSS)  
-3. SameSite：  
+3. SameSite：规定浏览器不能在跨域请求中携带 Cookie，减少 CSRF 攻击  
   Strict：完全禁止第三方请求携带 Cookie  
   Lax：限制放宽，只能在 get 表单或者 a 标签携带 Cookie  
   None：默认，请求会自动带 Cookie  

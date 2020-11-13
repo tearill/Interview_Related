@@ -1,4 +1,7 @@
 Function.prototype.myApply = function(context, arr) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
   var context = Object(context) || window; // 当传入的 this 参数为 null 的时候指向 window
   context.fn = this; // 拿到调用 apply 的那个函数
   var result;

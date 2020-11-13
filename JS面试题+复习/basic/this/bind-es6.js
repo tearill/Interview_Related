@@ -3,15 +3,13 @@ Function.prototype.myBind = function(context, ...arg1) {
     throw new Error('Function.prototype.bind - what is trying to bound is not callable');
   }
   let fn = this; // 拿到调用 bind 的函数
-  var FNOP = function() {}
-  function innerFunc(...arg2) {
+  function innerFunc(...arg2) { // 返回一个函数
     const args = arg1.concat(arg2); // 收集所有的参数
-    let isNewCall = this instanceof innerFunc;
-    return fn.call(isNewCall ? this : context, ...args); // 调用函数
+    if (this instanceof innerFunc) { // 如果是用 new 调用的
+      return new fn(arg1, arg2);
+    }
+    return fn.apply(context, args);
   }
-  FNOP.prototype = this.prototype;
-  // innerFunc.prototype = fn.prototype; // 链接原型
-  innerFunc.prototype = new FNOP();
   return innerFunc;
 }
 

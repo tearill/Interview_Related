@@ -1,4 +1,7 @@
-Function.prototype.myCall = function(context, ...args) { // context 是要绑定的 this 
+Function.prototype.myCall = function(context, ...args) { // context 是要绑定的 this
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
   context = Object(context) || window; // 当传入的 this 参数为 null 的时候指向 window
   context.fn = this;// 获取调用 call 的函数，在那个 conext 对象上去添加方法
   // console.log(this, '--------------');

@@ -1,4 +1,5 @@
 # 浏览器安全 --- CSRF 攻击  
+https://zhuanlan.zhihu.com/p/98062456  
 ## CSRF 攻击  
 - 什么是 CSRF 攻击  
   CSRF(Cross-site request forgery)跨站请求伪造攻击者诱导用户进入第三方网站，在第三方网站中，向被攻击网站发送跨站请求，利用用户目前的登录状态发起跨站请求  
@@ -43,7 +44,7 @@ CSRF的两个特点：
 ### Cookie 的 SameSite 属性  
   CSRF 攻击中重要的一环就是自动发送目标站点下的 Cookie，然后使用这一份 Cookie 模拟用户身份  
   SameSite 属性有三个值：Strict、Lax、None  
-  1. Strict 模式下，完全进制第三方携带 Cookie，只要是跨站点，任何情况下都不会发送 Cookie  
+  1. Strict 模式下，完全禁止第三方携带 Cookie，只要是跨站点，任何情况下都不会发送 Cookie  
   2. Lax 模式下，大多数情况下不发送 Cookie，但是导航到目标网址的 GET 请求除外  
     导航到目标网址的 GET 请求，只包括三种情况：链接，预加载请求，GET 表单  
   3. None 模式是默认模式，请求会自动携带上 Cookie  

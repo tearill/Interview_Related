@@ -1,13 +1,15 @@
 Function.prototype.myApply = function(context, arr) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
   context = Object(context) || window;
   context.fn = this; // 拿到调用 apply 的函数
   let result
   if (!arr) {
     result = context.fn();
   } else {
-    result = eval('context.fn(...arr)');
+    result = context.fn(...arr);
   }
-  // let result = context.fn(arr)
   delete context.fn;
   return result;
 }

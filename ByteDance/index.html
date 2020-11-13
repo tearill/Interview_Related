@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回流</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    div {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      margin-left: 20px;
+      margin-top: 20px;
+      background-color: yellowgreen;
+    }
+
+    #box1 {
+      width: 100px;
+    }
+
+    #box2 {
+      width: 200px;
+    }
+
+    #box3 {
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="box1"></div>
+  <div id="box2"></div>
+  <div id="box3"></div>
+
+  <script>
+    let DomA = document.getElementById('box1');
+    let DomB = document.getElementById('box2');
+    let DomC = document.getElementById('box3');
+
+    DomA.style.width = DomA.offsetWidth + 1 + 'px'
+    DomB.style.width = DomA.offsetWidth + 1 + 'px'
+    DomC.style.width = DomA.offsetWidth + 1 + 'px'
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    let arr = [1, 2, 3, 3, 2, '2'];
+    function unique(arr) {
+      let res = [];
+      let len = arr.length;
+      for (let i = 0; i < len; i++) {
+        let cur = arr[i];
+        if (res.indexOf(cur) === -1) {
+          res.push(cur);
+        }
+      }
+      return res;
+    }
+    // console.log(unique(arr));
+    function unique2(arr) {
+      let map = new Map();
+      let len = arr.length;
+      for (let i = 0; i < len; i++) {
+        if (!map.has(arr[i])) {
+          map.set(arr[i], true);
+        }
+      }
+      return [...map.keys()];
+    }
+    // console.log(unique2(arr));
+    function unique3(arr) {
+      let obj = {};
+      let len = arr.length;
+      for (let i = 0; i < len; i++) {
+        if (!obj[typeof(arr[i]) + arr[i]]) {
+          obj[typeof(arr[i]) + arr[i]] = arr[i];
+        }
+      }
+      return Object.values(obj);
+    }
+    console.log(unique3(arr));
+  </script>
+</body>
+</html>

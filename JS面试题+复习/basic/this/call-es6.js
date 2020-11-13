@@ -1,13 +1,11 @@
 Function.prototype.myCall = function(context, ...args) {
+  if (typeof this !== 'function') {
+    throw new TypeError('Error')
+  }
   context = Object(context) || window; // 传递的 this 指向为 null 的时候指向 window
   // let fn = new Symbol('fn');
   context.fn = this; // 获取调用 call 的函数，在那个 conext 对象上去添加方法
-  let result
-  if (!args) {
-    result = context.fn();
-  } else {
-    result = eval('context.fn(...args)');
-  }
+  let result = context.fn(args);
   delete context.fn;
   return result;
 }

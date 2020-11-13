@@ -1,0 +1,54 @@
+<!-- 图片懒加载
+IntersectionObserver API 的实现 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IntersectionObserver</title>
+  <style>
+    img {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/3/1/17095c8f546903ec?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/4/9/1715e358ab6e7e69?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/3/28/1711fad9ecacb02a?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032501.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032502.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032503.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032504.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032505.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032506.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032507.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032510.png">
+
+  <script>
+    let imgs = document.getElementsByTagName("img");
+
+    const observer = new IntersectionObserver(changes => {
+      // changes 是被观察的元素集合
+      for (let i = 0, len = changes.length; i < len; i++) {
+        let change = changes[i];
+        // 通过这个属性判断是否在视口中
+        if (change.isIntersecting) { // 是否和视窗有交叉
+          const imgElement = change.target;
+          imgElement.src = imgElement.getAttribute("data-src");
+          observer.unobserve(imgElement); // 取消监听
+        }
+      }
+    })
+
+    Array.from(imgs).forEach(item => observer.observe(item)); // 依次注册监听
+  </script>
+</body>
+
+</html>

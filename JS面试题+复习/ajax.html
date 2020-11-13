@@ -57,7 +57,7 @@
         }
         xhr.onreadystatechange = function() {
           if (xhr.readyState === 4) {
-            if (xhr.status >= 200 && xhr.status <300 || xhr.status === 304) {
+            if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
               try {
                 var response = JSON.parse(xhr.responseText); // 获取数据
                 resolve(response);

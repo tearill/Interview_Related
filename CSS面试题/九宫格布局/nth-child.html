@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>利用 nth-child() 选择器实现九宫格布局</title>
+  <style>
+    ul, li {
+      list-style: none;
+      overflow: hidden;
+    }
+
+    ul {
+      width: 620px;
+    }
+
+    li {
+      float: left;
+      width: 200px;
+      height: 200px;
+      line-height: 200px;
+      text-align: center;
+      background-color: yellowgreen;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    li:nth-child(3n) {
+      margin-right: 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>nth-child() 选择器实现九宫格布局</h2>
+  <ul class="lists">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </ul>
+</body>
+</html>

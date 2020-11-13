@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>delete-inline-block-gap</title>
+  <style>
+    a {
+      background-color: yellowgreen;
+    }
+
+    .box2 a {
+      display: inline-block;
+      padding: 3px;
+      margin: -3px;
+    }
+
+    .box3 {
+      font-size: 0;
+    }
+
+    .box3 h2 {
+      font-size: 25px;
+    }
+
+    .box3 a {
+      font-size: 16px;
+    }
+
+    .box5 {
+      letter-spacing: -5px;
+    }
+
+    .box5 a {
+      letter-spacing: 0;
+    }
+
+    .box6 {
+      word-spacing: -5px;
+    }
+
+    .box6 a {
+      word-spacing: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box1">
+    <h2>方式一：去除空格</h2>
+    <a href="">
+      链接1</a><a href="">
+      链接2</a><a href="">
+      链接3</a><a href="">
+      链接4</a>
+
+    <br />
+    <br />
+
+    <a href="">链接1</a
+      ><a href="">链接2</a
+      ><a href="">链接3</a
+      ><a href="">链接4</a>
+
+    <br />
+    <br />
+
+    <a href="">链接1</a><!--
+    --><a href="">链接2</a><!--
+    --><a href="">链接3</a><!--
+    --><a href="">链接4</a>
+  </div>
+
+  <div class="box2">
+    <h2>方式二：margin 负值</h2>
+    <a href="">链接1</a>
+    <a href="">链接2</a>
+    <a href="">链接3</a>
+    <a href="">链接4</a>
+  </div>
+
+  <div class="box3">
+    <h2>方式三：父元素 font-size:0</h2>
+    <a href="">链接1</a>
+    <a href="">链接2</a>
+    <a href="">链接3</a>
+    <a href="">链接4</a>
+  </div>
+
+  <div class="box4">
+    <h2>方式四：删除闭合标签</h2>
+    <a href="">链接1
+    <a href="">链接2
+    <a href="">链接3
+    <a href="">链接4
+  </div>
+
+  <div class="box5">
+    <h2>方式五：letter-spacing</h2>
+    <a href="">链接1</a>
+    <a href="">链接2</a>
+    <a href="">链接3</a>
+    <a href="">链接4</a>
+  </div>
+
+  <div class="box6">
+    <h2>方式六：word-spacing</h2>
+    <a href="">链接1</a>
+    <a href="">链接2</a>
+    <a href="">链接3</a>
+    <a href="">链接4</a>
+  </div>
+</body>
+
+</html>

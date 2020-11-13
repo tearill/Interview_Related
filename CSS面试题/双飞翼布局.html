@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .wrapper {
+      /* padding: 0; */
+      /* overflow: hidden; */
+      text-align: center;
+      line-height: 200px;
+    }
+    .col {
+      float: left;
+    }
+    .main-wrapper {
+      width: 100%;
+    }
+    .main {
+      margin: 0 100px 0 100px;
+      height: 200px;
+      background-color: #f5c531;
+    }
+    .left {
+      width: 100px;
+      height: 200px;
+      margin-left: -100%;
+      background-color: #a0c263;
+    }
+    .right {
+      width: 100px;
+      height: 200px;
+      margin-left: -100px;
+      background-color: #a0c263;
+    }
+  </style>
+</head>
+
+<body>
+  <section class="wrapper">
+    <section class="col main-wrapper">
+      <section class="main">main</section>
+    </section>
+    <aside class="col left">left</aside>
+    <aside class="col right">right</aside>
+  </section>
+</body>
+
+</html>

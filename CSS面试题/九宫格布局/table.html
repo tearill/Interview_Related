@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>table 实现九宫格布局</title>
+  <style>
+    .table {
+      display: table;
+    }
+
+    .table li {
+      /* list-style: none; */
+      display:table-row;
+      background-color: yellowgreen;
+    }
+
+    .table li div {
+      display: table-cell;
+      width: 200px;
+      line-height: 200px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>table 实现九宫格布局</h2>
+  <ul class="table">
+    <li>
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </li>
+    <li>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+    </li>
+    <li>
+      <div>7</div>
+      <div>8</div>
+      <div>9</div>
+    </li>
+  </ul>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!-- 图片懒加载
+clientHeight、scrollTop 和 offsetTop 实现
+将真正的图片地址放在 img 标签的 data-src 属性上，当图片出现在屏幕范围内的时候把真实地址给 src
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clientHeight、scrollTop 和 offsetTop 判断</title>
+  <style>
+    img {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <!-- <img src="https://user-gold-cdn.xitu.io/2020/3/1/17095c8f546903ec?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1" alt=""> -->
+    <img src="default.jpg" alt=""
+      data-src="https://user-gold-cdn.xitu.io/2020/3/1/17095c8f546903ec?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+    <img src="default.jpg" alt=""
+      data-src="https://user-gold-cdn.xitu.io/2020/4/9/1715e358ab6e7e69?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+    <img src="default.jpg" alt=""
+      data-src="https://user-gold-cdn.xitu.io/2020/3/28/1711fad9ecacb02a?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032501.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032502.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032503.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032504.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032505.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032506.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032507.png">
+    <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032510.png">
+  </div>
+
+  <script>
+    let imgs = document.getElementsByTagName('img');
+    let num = imgs.length;
+    let count = 0; // 计数器，从第一张图片开始计数
+
+    lazyLoad(imgs) // 首次加载调用一次
+
+    // 节流函数
+    function throttle(fn, interval) {
+      let flag = true;
+      return function (...args) {
+        let context = this;
+        if (!flag) return;
+        flag = false; // 关闭执行权限
+        setTimeout(() => {
+          fn.apply(context, args);
+          flag = true; // 放开执行权限
+        }, interval)
+      }
+    }
+
+    function throttle_date(fn, delay) {
+      let last = 0;
+      return function (...args) {
+        let context = this;
+        let now = +new Date();
+        if (now - last < interval) return; // 规定时间内再次触发
+        fn.apply(context, args)
+        last = now
+      }
+    }
+
+    window.addEventListener('scroll', lazyLoad);
+
+    function getTop(e) {
+      var T = e.offsetTop; // 距离上方的距离
+      while (e = e.offsetParent) { // 循环到父元素 div 的顶部
+        T += e.offsetTop;
+      }
+      return T;
+    }
+
+    function lazyLoad(imgs) {
+      let viewHeight = document.documentElement.clientHeight; // 视窗高度
+      let scrollTop = document.documentElement.scrollTop || document.body.scrollTop; // 滚动条卷去的高度
+      for (let i = count; i < num; i++) {
+        if (getTop(imgs[i]) < scrollTop + viewHeight) {
+          if (imgs[i].getAttribute('src') !== 'default.jpg') continue; // 没有做懒加载处理的图片
+          imgs[i].src = imgs[i].getAttribute('data-src');
+          count++;
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

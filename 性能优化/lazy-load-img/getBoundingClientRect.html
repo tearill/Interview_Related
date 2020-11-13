@@ -1,0 +1,57 @@
+<!-- 图片懒加载
+getBoundingClientRect 的实现
+使用 getBoundingClientRect 判断图片是否出现在了当前视窗 -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>getBoundingClientRect</title>
+  <style>
+    img {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <img src="https://user-gold-cdn.xitu.io/2020/3/1/17095c8f546903ec?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1" alt=""> -->
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/3/1/17095c8f546903ec?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/4/9/1715e358ab6e7e69?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt=""
+    data-src="https://user-gold-cdn.xitu.io/2020/3/28/1711fad9ecacb02a?imageView2/1/w/180/h/180/q/85/format/webp/interlace/1">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032501.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032502.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/1_bg2019032503.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032504.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032505.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032506.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032507.png">
+  <img src="default.jpg" alt="" data-src="https://www.wangbase.com/blogimg/asset/201903/bg2019032510.png">
+
+  <script>
+    let imgs = document.getElementsByTagName('img');
+    let num = imgs.length;
+    let count = 0; // 计数器，从第一张图片开始计数
+
+    lazyLoad(imgs)
+
+    window.addEventListener('scroll', lazyLoad)
+
+    function lazyLoad() {
+      for (let i = count; i < num; i++) {
+        // 元素现在已经出现在视口中
+        if (imgs[i].getBoundingClientRect().top < document.documentElement.clientHeight) {
+          if (imgs[i].getAttribute("src") !== "default.jpg") continue;
+          imgs[i].src = imgs[i].getAttribute("data-src");
+          count++;
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

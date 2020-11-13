@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flex 实现九宫格布局</title>
+  <style>
+    li {
+      list-style: none;
+    }
+
+    .box {
+      display: flex;
+      flex-wrap: wrap;
+      width: 330px;
+      height: 330px;
+    }
+
+    .box li {
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      background-color: yellowgreen;
+    }
+
+    .box li:nth-child(5) {
+      background-color: #f00;
+    }
+
+    /* 去除最后一列的右边距 */
+    .box li:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    /* 去除最后一行的下边距 */
+    .box li:nth-child(n+7) {
+      margin-bottom: 0;
+    }
+  </style>
+
+  <style>
+    .flex {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .flex li {
+      width: calc(98% / 3);
+      /* calc里面的运算符两边要空格 */
+      height: calc(98% / 3);
+      flex-grow: 1;
+      /* 子元素按1/n的比例进行拉伸 */
+      background-color: yellowgreen;
+      text-align: center;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      font-size: 50px;
+      line-height: 2;
+    }
+
+    .flex li:nth-of-type(3n) {
+      /* 选择个数是3的倍数的元素 */
+      margin-right: 0;
+    }
+
+    .flex li:nth-of-type(n+7) {
+      /* 选择倒数的三个元素，n可以取0 */
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>flex 九宫格 非自适应</h2>
+  <div class="box">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+    <li>6</li>
+    <li>7</li>
+    <li>8</li>
+    <li>9</li>
+  </div>
+
+  <h2>flex 九宫格 自适应</h2>
+  <div class="flex">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+  </div>
+</body>
+
+</html>

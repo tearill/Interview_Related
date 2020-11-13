@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>float 实现九宫格布局</title>
+  <style>
+    .float-box {
+      overflow: hidden;
+    }
+
+    .float-box div {
+      float: left;
+    }
+
+    li {
+      list-style: none;
+      background-color: yellowgreen;
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+      margin-bottom: 10px;
+      margin-right: 10px;
+    }
+  </style>
+
+  <style>
+    .square {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 100%;
+      /* padding百分比是相对父元素宽度计算的 */
+    }
+
+    .square-inner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /* 铺满父元素容器，这时候宽高就始终相等了 */
+    }
+
+    .square-inner>li {
+      width: calc(98% / 3);
+      /* calc里面的运算符两边要空格 */
+      height: calc(98% / 3);
+      margin-right: 1%;
+      margin-bottom: 1%;
+      overflow: hidden;
+    }
+
+    .float::after {
+      content: "";
+      display: block;
+      clear: both;
+      visibility: hidden;
+    }
+
+    .float>li {
+      float: left;
+      background-color: #42a59f;
+      text-align: center;
+      color: #fff;
+      font-size: 50px;
+      line-height: 10;
+    } 
+
+    /* 去除最后一列右边距 */
+    .float>li:nth-of-type(3n) {
+      margin-right: 0;
+    }
+
+    /* 去除最后一行下边距 */
+    .float>li:nth-of-type(n+7) {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>float 九宫格 非自适应</h2>
+  <div class="float-box">
+    <div>
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+    </div>
+    <div>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+    </div>
+    <div>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+    </div>
+  </div>
+
+  <div class="square">
+    <ul class="square-inner float">
+      <li>1</li>
+      <li>2</li>
+      <li>3</li>
+      <li>4</li>
+      <li>5</li>
+      <li>6</li>
+      <li>7</li>
+      <li>8</li>
+      <li>9</li>
+    </ul>
+  </div>
+</body>
+
+</html>
