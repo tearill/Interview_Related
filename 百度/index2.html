@@ -41,7 +41,18 @@
       }
       return Object.values(obj);
     }
-    console.log(unique3(arr));
+    // console.log(unique3(arr));
+    function unique4(arr) {
+      let newArr = [arr.shift()];
+      for (let i = 0; i < arr.length; i++) {
+        const element = arr[i];
+        if (!newArr.includes(element)) {
+          newArr.push(element);
+        }
+      }
+      return newArr;
+    }
+    console.log(unique4(arr));
   </script>
 </body>
 </html>
